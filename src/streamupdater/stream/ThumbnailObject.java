@@ -2,11 +2,16 @@ package streamupdater.stream;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.Serializable;
 
-public class ThumbnailObject {
+public class ThumbnailObject implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private File file = null;
-	private BufferedImage image = null;
+	private transient BufferedImage image = null;
 	private int width = 0;
 	private int height = 0;
 	private int posx = 0;

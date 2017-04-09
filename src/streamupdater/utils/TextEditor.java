@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -17,7 +18,12 @@ import javax.swing.border.EmptyBorder;
 
 import streamupdater.gui.components.ThumbnailEditor;
 
-public class TextEditor {
+public class TextEditor implements Serializable {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	
 	private boolean completed = false;
 	private int size = 24;
@@ -33,7 +39,7 @@ public class TextEditor {
 	private String font = "Arial";
 	private String alignment = "left";
 	
-	private JFrame f;
+	private transient JFrame f;
 	
 	public TextEditor(int s) {
 		f = new JFrame("Text Editor - Layer " + s);

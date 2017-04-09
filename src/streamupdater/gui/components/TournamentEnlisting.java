@@ -40,7 +40,7 @@ public class TournamentEnlisting extends JPanel {
 		JTabbedPane enlistingPane = new JTabbedPane(JTabbedPane.TOP);
 		enlistingPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 		enlistingPane.setBackground(Color.DARK_GRAY);
-		enlistingPane.setForeground(Color.WHITE);
+		enlistingPane.setForeground(Color.BLACK);
 		enlistingPane.setBounds(10, 11, 1605, 997);
 		add(enlistingPane);
 		

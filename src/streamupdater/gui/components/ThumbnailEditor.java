@@ -15,6 +15,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
@@ -24,13 +26,13 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import streamupdater.files.FileManager;
 import streamupdater.stream.ThumbnailObject;
+import streamupdater.stream.ThumbnailSave;
 import streamupdater.utils.TextEditor;
 
 @SuppressWarnings("serial")
@@ -152,6 +154,20 @@ public class ThumbnailEditor extends JPanel implements Runnable, KeyListener, Mo
 		deselect.setBounds(120, 62, 210, 40);
 		add(deselect);
 		
+		JButton save = new JButton("Save");
+		save.setToolTipText("Save your template");
+		save.setBackground(Color.DARK_GRAY);
+		save.setFont(new Font("Arial Black", Font.BOLD, 14));
+		save.setBounds(340, 62, 100, 40);
+		add(save);
+		
+		JButton load = new JButton("Load");
+		load.setToolTipText("Load a previous template");
+		load.setBackground(Color.DARK_GRAY);
+		load.setFont(new Font("Arial Black", Font.BOLD, 14));
+		load.setBounds(450, 62, 100, 40);
+		add(load);
+		
 		JLabel widthLabel = new JLabel("Width");
 		widthLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		widthLabel.setForeground(Color.WHITE);
@@ -212,6 +228,41 @@ public class ThumbnailEditor extends JPanel implements Runnable, KeyListener, Mo
 			layerBox.addItem("Layer [" + i + "]");
 		}
 		
+		save.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ArrayList<ThumbnailObject> to = new ArrayList<ThumbnailObject>(Arrays.asList(layers));
+				ArrayList<TextEditor> editor = new ArrayList<TextEditor>(Arrays.asList(te));
+				ThumbnailSave ts = new ThumbnailSave();
+				ts.setListObjects(to);
+				ts.setTextEditor(editor);
+				ts.save(to, editor);
+			}
+		});
+		
+		load.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				pause = true;
+				ThumbnailSave ts = new ThumbnailSave();
+				ts.load();
+				ArrayList<ThumbnailObject> to = ts.getThumbnailObject();
+				ArrayList<TextEditor> editor = ts.getTextEditor();
+				layers = new ThumbnailObject[to.size()];
+				te = new TextEditor[editor.size()];
+				for(int i = 0; i < layers.length; i++) {
+					if(i == 0) {
+						layers[i] = to.get(i);
+						te[i] = editor.get(i);
+					} else {
+						layers[i] = to.get(i);
+						te[i] = editor.get(i);
+					}
+					if(layers[i].isSelected()) System.out.println(i + " - true");
+					updateSpecificLayer(i);
+				}
+				pause = false;
+			}
+		});
+		
 		remove.addActionListener(new ActionListener() {
 
 			@Override
@@ -255,60 +306,7 @@ public class ThumbnailEditor extends JPanel implements Runnable, KeyListener, Mo
 		add.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				pos = layerBox.getSelectedIndex();
-				jfc = new JFileChooser();
-				jfc.setCurrentDirectory(new java.io.File("user.home"));
-				jfc.setDialogTitle("Select Layer 0 Image File");
-				jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-				if (jfc.showOpenDialog(add) == JFileChooser.APPROVE_OPTION) {
-					try {
-						layers[pos].setFile(jfc.getSelectedFile());
-						if(!layers[pos].isReversed())
-							if(layers[pos].getFile().getName().contains(".txt")) {
-								if(te[pos] == null)
-									te[pos] = new TextEditor(pos);
-								else
-									te[pos].getFrame().setVisible(true);
-								// load defaults, this will be overriden when saved
-								layers[pos].setFont(te[pos].getFont());
-								layers[pos].setAlignment(te[pos].getAlignment());
-								layers[pos].setSize(te[pos].getSize());
-								layers[pos].setColor(te[pos].getColor()[0], te[pos].getColor()[1], te[pos].getColor()[2]);
-								layers[pos].setBold(te[pos].isBold());
-								layers[pos].setItalic(te[pos].isItalic());
-								layers[pos].setAdjusted(te[pos].isAdjusted());
-								layers[pos].setWidth(te[pos].getWidth());
-								layers[pos].setHeight(te[pos].getHeight());
-								layers[pos].setImage(convertTextToImage(layers[pos].getFile(), pos));
-							} else 
-								if(layers[pos].getFile().getName().contains("png") ||
-										layers[pos].getFile().getName().contains("jpg") ||
-										layers[pos].getFile().getName().contains("jpeg") ||
-										layers[pos].getFile().getName().contains("bmp")){
-								layers[pos].setImage(ImageIO.read(layers[pos].getFile()));
-								layers[pos].setX(0);
-								layers[pos].setY(0);
-								layers[pos].setWidth((int) (layers[pos].getImage().getWidth()));
-								layers[pos].setHeight((int) (layers[pos].getImage().getHeight()));
-							} else {
-								JOptionPane.showMessageDialog(null, "txt, png, jpg, and bmp files only!");
-								layers[pos].reset();
-								add.setToolTipText("");
-								if(te[pos] != null) {
-									te[pos].getFrame().dispose();
-									te[pos] = null;
-								}
-								return;
-							}
-						else {
-							reverseImage(pos);
-						}
-						edit.setEnabled(true);
-						add.setToolTipText(jfc.getSelectedFile().getAbsolutePath());
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
+				updateLayer();
 			}
 		});
 		
@@ -387,6 +385,113 @@ public class ThumbnailEditor extends JPanel implements Runnable, KeyListener, Mo
 			}
 		});
 		
+	}
+	
+	public void updateSpecificLayer(int x) {
+		try {
+			pos = x;
+			if(layers[pos].getFile() == null) return;
+			if(!layers[pos].isReversed())
+				if(layers[pos].getFile().getName().contains(".txt")) {
+					te[pos] = new TextEditor(pos);
+					te[pos].getFrame().setVisible(true);
+					// load defaults, this will be overriden when saved
+					layers[pos].setFont(te[pos].getFont());
+					layers[pos].setAlignment(te[pos].getAlignment());
+					layers[pos].setSize(te[pos].getSize());
+					layers[pos].setColor(te[pos].getColor()[0], te[pos].getColor()[1], te[pos].getColor()[2]);
+					layers[pos].setBold(te[pos].isBold());
+					layers[pos].setItalic(te[pos].isItalic());
+					layers[pos].setAdjusted(te[pos].isAdjusted());
+					layers[pos].setWidth(te[pos].getWidth());
+					layers[pos].setHeight(te[pos].getHeight());
+					layers[pos].setImage(convertTextToImage(layers[pos].getFile(), pos));
+				} else 
+					if(layers[pos].getFile().getName().contains("png") ||
+							layers[pos].getFile().getName().contains("jpg") ||
+							layers[pos].getFile().getName().contains("jpeg") ||
+							layers[pos].getFile().getName().contains("bmp")){
+					layers[pos].setImage(ImageIO.read(layers[pos].getFile()));
+					layers[pos].setX(0);
+					layers[pos].setY(0);
+					layers[pos].setWidth((int) (layers[pos].getImage().getWidth()));
+					layers[pos].setHeight((int) (layers[pos].getImage().getHeight()));
+				} else {
+					JOptionPane.showMessageDialog(null, "txt, png, jpg, and bmp files only!");
+					layers[pos].reset();
+					add.setToolTipText("");
+					if(te[pos] != null) {
+						te[pos].getFrame().dispose();
+						te[pos] = null;
+					}
+					return;
+				}
+			else {
+				reverseImage(pos);
+			}
+			edit.setEnabled(true);
+			add.setToolTipText(layers[pos].getFile().getName());
+		} catch (Exception e2) {
+			System.out.println("Unable to access specific file.");
+			e2.printStackTrace();
+		}
+	}
+	
+	public void updateLayer() {
+		pos = layerBox.getSelectedIndex();
+		jfc = new JFileChooser();
+		jfc.setCurrentDirectory(new java.io.File("user.home"));
+		jfc.setDialogTitle("Select Layer 0 Image File");
+		jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		if (jfc.showOpenDialog(add) == JFileChooser.APPROVE_OPTION) {
+			try {
+				layers[pos].setFile(jfc.getSelectedFile());
+				if(!layers[pos].isReversed())
+					if(layers[pos].getFile().getName().contains(".txt")) {
+						if(te[pos] == null)
+							te[pos] = new TextEditor(pos);
+						else
+							te[pos].getFrame().setVisible(true);
+						// load defaults, this will be overriden when saved
+						layers[pos].setFont(te[pos].getFont());
+						layers[pos].setAlignment(te[pos].getAlignment());
+						layers[pos].setSize(te[pos].getSize());
+						layers[pos].setColor(te[pos].getColor()[0], te[pos].getColor()[1], te[pos].getColor()[2]);
+						layers[pos].setBold(te[pos].isBold());
+						layers[pos].setItalic(te[pos].isItalic());
+						layers[pos].setAdjusted(te[pos].isAdjusted());
+						layers[pos].setWidth(te[pos].getWidth());
+						layers[pos].setHeight(te[pos].getHeight());
+						layers[pos].setImage(convertTextToImage(layers[pos].getFile(), pos));
+					} else 
+						if(layers[pos].getFile().getName().contains("png") ||
+								layers[pos].getFile().getName().contains("jpg") ||
+								layers[pos].getFile().getName().contains("jpeg") ||
+								layers[pos].getFile().getName().contains("bmp")){
+						layers[pos].setImage(ImageIO.read(layers[pos].getFile()));
+						layers[pos].setX(0);
+						layers[pos].setY(0);
+						layers[pos].setWidth((int) (layers[pos].getImage().getWidth()));
+						layers[pos].setHeight((int) (layers[pos].getImage().getHeight()));
+					} else {
+						JOptionPane.showMessageDialog(null, "txt, png, jpg, and bmp files only!");
+						layers[pos].reset();
+						add.setToolTipText("");
+						if(te[pos] != null) {
+							te[pos].getFrame().dispose();
+							te[pos] = null;
+						}
+						return;
+					}
+				else {
+					reverseImage(pos);
+				}
+				edit.setEnabled(true);
+				add.setToolTipText(jfc.getSelectedFile().getAbsolutePath());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	public void addNotify() {
