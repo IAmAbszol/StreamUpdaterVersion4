@@ -249,15 +249,9 @@ public class ThumbnailEditor extends JPanel implements Runnable, KeyListener, Mo
 				layers = new ThumbnailObject[to.size()];
 				te = new TextEditor[editor.size()];
 				for(int i = 0; i < layers.length; i++) {
-					if(i == 0) {
-						layers[i] = to.get(i);
-						te[i] = editor.get(i);
-					} else {
-						layers[i] = to.get(i);
-						te[i] = editor.get(i);
-					}
-					if(layers[i].isSelected()) System.out.println(i + " - true");
-					updateSpecificLayer(i);
+					layers[i] = to.get(i);
+					te[i] = editor.get(i);
+					updateSpecificLayer(to, editor, i);
 				}
 				pause = false;
 			}
@@ -387,14 +381,23 @@ public class ThumbnailEditor extends JPanel implements Runnable, KeyListener, Mo
 		
 	}
 	
-	public void updateSpecificLayer(int x) {
+	public void updateSpecificLayer(ArrayList<ThumbnailObject> to, ArrayList<TextEditor> editor, int x) {
 		try {
 			pos = x;
 			if(layers[pos].getFile() == null) return;
-			if(!layers[pos].isReversed())
 				if(layers[pos].getFile().getName().contains(".txt")) {
 					te[pos] = new TextEditor(pos);
 					te[pos].getFrame().setVisible(true);
+					te[pos].setAlignment(editor.get(pos).getAlignment());
+					te[pos].setAdjusted(editor.get(pos).isAdjusted());
+					te[pos].setBold(editor.get(pos).isBold());
+					te[pos].setColor(editor.get(pos).getColor());
+					te[pos].setFont(editor.get(pos).getFont());
+					te[pos].setItalic(editor.get(pos).isItalic());
+					te[pos].setSize(editor.get(pos).getSize());
+					te[pos].setWidth(editor.get(pos).getWidth());
+					te[pos].setHeight(editor.get(pos).getHeight());
+					te[pos].getFrame().setVisible(false);
 					// load defaults, this will be overriden when saved
 					layers[pos].setFont(te[pos].getFont());
 					layers[pos].setAlignment(te[pos].getAlignment());
@@ -406,16 +409,23 @@ public class ThumbnailEditor extends JPanel implements Runnable, KeyListener, Mo
 					layers[pos].setWidth(te[pos].getWidth());
 					layers[pos].setHeight(te[pos].getHeight());
 					layers[pos].setImage(convertTextToImage(layers[pos].getFile(), pos));
+					layers[pos].setX(to.get(pos).getX());
+					layers[pos].setY(to.get(pos).getY());
+					layers[pos].setReversed(to.get(pos).isReversed());		
+					reupdateImagesOverride();
+					System.out.println(pos);
+					te[pos].formatGui();
 				} else 
 					if(layers[pos].getFile().getName().contains("png") ||
 							layers[pos].getFile().getName().contains("jpg") ||
 							layers[pos].getFile().getName().contains("jpeg") ||
 							layers[pos].getFile().getName().contains("bmp")){
 					layers[pos].setImage(ImageIO.read(layers[pos].getFile()));
-					layers[pos].setX(0);
-					layers[pos].setY(0);
-					layers[pos].setWidth((int) (layers[pos].getImage().getWidth()));
-					layers[pos].setHeight((int) (layers[pos].getImage().getHeight()));
+					layers[pos].setX(to.get(pos).getX());
+					layers[pos].setY(to.get(pos).getY());
+					layers[pos].setWidth(to.get(pos).getWidth());
+					layers[pos].setHeight(to.get(pos).getHeight());
+					layers[pos].setReversed(to.get(pos).isReversed());	
 				} else {
 					JOptionPane.showMessageDialog(null, "txt, png, jpg, and bmp files only!");
 					layers[pos].reset();
@@ -426,9 +436,8 @@ public class ThumbnailEditor extends JPanel implements Runnable, KeyListener, Mo
 					}
 					return;
 				}
-			else {
-				reverseImage(pos);
-			}
+				if(layers[pos].isReversed())
+					reverseImage(pos);
 			edit.setEnabled(true);
 			add.setToolTipText(layers[pos].getFile().getName());
 		} catch (Exception e2) {
@@ -701,8 +710,6 @@ public class ThumbnailEditor extends JPanel implements Runnable, KeyListener, Mo
 		try {
 			int tmpy = 0;
 			int type = Font.PLAIN;
-			if(layers[i].isBold()) type = Font.BOLD;
-			if(layers[i].isItalic()) type = type | Font.ITALIC;
 			layers[i].setFont(te[i].getFont());
 			layers[i].setAlignment(te[i].getAlignment());
 			layers[i].setSize(te[i].getSize());
@@ -712,6 +719,8 @@ public class ThumbnailEditor extends JPanel implements Runnable, KeyListener, Mo
 			layers[i].setAdjusted(te[i].isAdjusted());
 			layers[i].setWidth(te[i].getWidth());
 			layers[i].setHeight(te[i].getHeight());
+			if(layers[i].isBold()) type = Font.BOLD;
+			if(layers[i].isItalic()) type = type | Font.ITALIC;
 			
 			// grab width of longest line, if it's multi-line
 			BufferedImage tmp = new BufferedImage(layers[i].getWidth(), layers[i].getHeight(), BufferedImage.TYPE_INT_ARGB);

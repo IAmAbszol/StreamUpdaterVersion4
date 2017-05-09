@@ -157,6 +157,7 @@ public class StreamCapture extends JPanel {
 							if(!textField.getText().equals("")) {
 								if(textField.getText().contains(".flv")) {
 									streamURL = textField.getText();
+									screen();
 									break;
 								} else {
 									JOptionPane.showMessageDialog(null, "Invalid extension, please select a .flv selection");
@@ -178,225 +179,230 @@ public class StreamCapture extends JPanel {
 				frame.setResizable(false);
 				frame.setVisible(true);
 				
-				remove(begin);
-				
-				capture = new JButton("Capture");
-				capture.setFont(new Font("Arial Black", Font.BOLD, 18));
-				capture.setBackground(Color.DARK_GRAY);
-				capture.setBounds(10, 134, 300, 65);
-				add(capture);
-				
-				saveObject = new JButton("Save Object");
-				saveObject.setFont(new Font("Arial Black", Font.BOLD, 18));
-				saveObject.setBackground(Color.DARK_GRAY);
-				saveObject.setBounds(10, 210, 300, 65);
-				add(saveObject);
-				
-				loadObject = new JButton("Load Object");
-				loadObject.setFont(new Font("Arial Black", Font.BOLD, 18));
-				loadObject.setBackground(Color.DARK_GRAY);
-				loadObject.setBounds(10, 286, 300, 65);
-				add(loadObject);
-				
-				changeUrl = new JButton("Change Stream URL");
-				changeUrl.setFont(new Font("Arial Black", Font.BOLD, 18));
-				changeUrl.setBackground(Color.DARK_GRAY);
-				changeUrl.setBounds(10, 362, 300, 65);
-				add(changeUrl);
-				
-				/*
-				 * Setup render list objects
-				 */
-				JScrollPane scroll = new JScrollPane();
-				scroll.setBounds(465, 134, 695, 800);
-				add(scroll);
-				
-				borderlayoutpanel = new JPanel();
-		        scroll.setViewportView(borderlayoutpanel);
-		        borderlayoutpanel.setLayout(new BorderLayout(0, 0));
+			}
+			
+		});
+		
+	}
+	
+	private void screen() {
+		
+		remove(begin);
+		
+		capture = new JButton("Capture");
+		capture.setFont(new Font("Arial Black", Font.BOLD, 18));
+		capture.setBackground(Color.DARK_GRAY);
+		capture.setBounds(10, 134, 300, 65);
+		add(capture);
+		
+		saveObject = new JButton("Save Object");
+		saveObject.setFont(new Font("Arial Black", Font.BOLD, 18));
+		saveObject.setBackground(Color.DARK_GRAY);
+		saveObject.setBounds(10, 210, 300, 65);
+		add(saveObject);
+		
+		loadObject = new JButton("Load Object");
+		loadObject.setFont(new Font("Arial Black", Font.BOLD, 18));
+		loadObject.setBackground(Color.DARK_GRAY);
+		loadObject.setBounds(10, 286, 300, 65);
+		add(loadObject);
+		
+		changeUrl = new JButton("Change Stream URL");
+		changeUrl.setFont(new Font("Arial Black", Font.BOLD, 18));
+		changeUrl.setBackground(Color.DARK_GRAY);
+		changeUrl.setBounds(10, 362, 300, 65);
+		add(changeUrl);
+		
+		/*
+		 * Setup render list objects
+		 */
+		JScrollPane scroll = new JScrollPane();
+		scroll.setBounds(465, 134, 695, 800);
+		add(scroll);
+		
+		borderlayoutpanel = new JPanel();
+        scroll.setViewportView(borderlayoutpanel);
+        borderlayoutpanel.setLayout(new BorderLayout(0, 0));
 
-				convert = new JButton("Convert To MP4");
-				convert.setBackground(Color.DARK_GRAY);
-				convert.setFont(new Font("Arial Black", Font.BOLD, 14));
-				convert.setBounds(465, 945, 184, 63);
-				add(convert);
-				
-				createThumbnails = new JButton("Create Thumbnails");
-				createThumbnails.setFont(new Font("Arial Black", Font.BOLD, 14));
-				createThumbnails.setBackground(Color.DARK_GRAY);
-				createThumbnails.setBounds(659, 945, 307, 63);
-				add(createThumbnails);
-				
-				renderAll = new JButton("Render All");
-				renderAll.setFont(new Font("Arial Black", Font.BOLD, 14));
-				renderAll.setBackground(Color.DARK_GRAY);
-				renderAll.setBounds(976, 945, 184, 63);
-				add(renderAll);
-				
-				videoName = new JTextField("CURRENTROUND - PLAYERONENAME vs PLAYERTWONAME - MAINTITLE");
-				videoName.setToolTipText(buildCommandList());
-				videoName.setFont(new Font("Arial Black", Font.BOLD, 14));
-				videoName.setBounds(10, 440, 300, 40);
-				videoName.setHorizontalAlignment(SwingConstants.CENTER);
-				videoName.setColumns(10);
-				videoName.setEnabled(true);
-				add(videoName);
-				
-				JButton refresh = new JButton("Refresh");
-				refresh.setToolTipText("Temporary till repaint is fixed");
-				refresh.setFont(new Font("Arial Black", Font.BOLD, 18));
-				refresh.setBackground(Color.DARK_GRAY);
-				refresh.setBounds(10, 870, 300, 65);
-				add(refresh);
-				
-				addNewStream = new JButton("Add New Stream");
-				addNewStream.setToolTipText("Opens a new file to be recorded, previous is saved and cleared of the render list.");
-				addNewStream.setFont(new Font("Arial Black", Font.BOLD, 18));
-				addNewStream.setBackground(Color.DARK_GRAY);
-				addNewStream.setBounds(10, 945, 300, 65);
-				add(addNewStream);
-				
-				refresh.addActionListener(new ActionListener() {
+		convert = new JButton("Convert To MP4");
+		convert.setBackground(Color.DARK_GRAY);
+		convert.setFont(new Font("Arial Black", Font.BOLD, 14));
+		convert.setBounds(465, 945, 184, 63);
+		add(convert);
+		
+		createThumbnails = new JButton("Create Thumbnails");
+		createThumbnails.setFont(new Font("Arial Black", Font.BOLD, 14));
+		createThumbnails.setBackground(Color.DARK_GRAY);
+		createThumbnails.setBounds(659, 945, 307, 63);
+		add(createThumbnails);
+		
+		renderAll = new JButton("Render All");
+		renderAll.setFont(new Font("Arial Black", Font.BOLD, 14));
+		renderAll.setBackground(Color.DARK_GRAY);
+		renderAll.setBounds(976, 945, 184, 63);
+		add(renderAll);
+		
+		videoName = new JTextField("CURRENTROUND - PLAYERONENAME vs PLAYERTWONAME - MAINTITLE");
+		videoName.setToolTipText(buildCommandList());
+		videoName.setFont(new Font("Arial Black", Font.BOLD, 14));
+		videoName.setBounds(10, 440, 300, 40);
+		videoName.setHorizontalAlignment(SwingConstants.CENTER);
+		videoName.setColumns(10);
+		videoName.setEnabled(true);
+		add(videoName);
+		
+		JButton refresh = new JButton("Refresh");
+		refresh.setToolTipText("Temporary till repaint is fixed");
+		refresh.setFont(new Font("Arial Black", Font.BOLD, 18));
+		refresh.setBackground(Color.DARK_GRAY);
+		refresh.setBounds(10, 870, 300, 65);
+		add(refresh);
+		
+		addNewStream = new JButton("Add New Stream");
+		addNewStream.setToolTipText("Opens a new file to be recorded, previous is saved and cleared of the render list.");
+		addNewStream.setFont(new Font("Arial Black", Font.BOLD, 18));
+		addNewStream.setBackground(Color.DARK_GRAY);
+		addNewStream.setBounds(10, 945, 300, 65);
+		add(addNewStream);
+		
+		refresh.addActionListener(new ActionListener() {
 
-					@Override
-					public void actionPerformed(ActionEvent arg0) {
-						repaint();
-					}
-					
-				});
-				
-				capture.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				repaint();
+			}
+			
+		});
+		
+		capture.addActionListener(new ActionListener() {
 
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						try {
-							if(!capturing) {
-								capturing = true;
-								capture.setText("Stop Capture");
-								offset = video.getDuration();
-							} else {
-								capturing = false;
-								capture.setText("Capture");
-								duration = video.getDuration() - offset;
-								ro.getDurations().add((int) duration);
-								ro.getStartingPositions().add((int) offset);
-								offset = 0;
-								duration = 0;
-								
-								// setup files
-								ThumbnailEditor.deselect();
-								ro.setPackage(command.interpretString(videoName.getText()) + ".mp4", 
-										command.interpretString(videoName.getText()) + ".png", 
-										ThumbnailEditor.generateThumbnail());
-								
-								initRenderList();
-						        
-						        columnpanel.repaint();
-								
-							}
-						} catch (Exception e2) {
-							e2.printStackTrace();
-						}
-					}
-					
-				});
-				
-				saveObject.addActionListener(new ActionListener() {
-
-					@Override
-					public void actionPerformed(ActionEvent e) {
-							new Thread(new Runnable() {
-								public void run() {
-									if(ro != null) {
-										RenderSave rs = new RenderSave();
-										rs.save(ro.getStreamURL(), ro.getStartingPositions(), ro.getDurations(), ro.getFileNames(), ro.getImages(), ro.getImageFileNames());
-									} else {
-										JOptionPane.showMessageDialog(null, "Render Object Broken? I'll rebuild it");
-										ro = new RenderObject(streamURL);
-										RenderSave rs = new RenderSave();
-										rs.save(ro.getStreamURL(), ro.getStartingPositions(), ro.getDurations(), ro.getFileNames(), ro.getImages(), ro.getImageFileNames());
-								}
-							}
-							}).start();
-					}
-					
-				});
-				
-				addNewStream.addActionListener(new NewStream());
-				
-				loadObject.addActionListener(new ActionListener() {
-
-					@Override
-					public void actionPerformed(ActionEvent arg0) {
-						RenderSave rs = new RenderSave();
-						rs.load();
-						if(rs.getStreamURL() == null) return;
-						ro = new RenderObject(rs.getStreamURL());
-						ro.setStartingPositions(rs.getStartingPositions());
-						ro.setDurations(rs.getDurations());
-						ro.setFileNames(rs.getFileNames());
-						ro.setThumbnails(rs.getImages());
-						ro.setImageFile(rs.getImageFileNames());
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					if(!capturing) {
+						capturing = true;
+						capture.setText("Stop Capture");
+						offset = video.getDuration();
+					} else {
+						capturing = false;
+						capture.setText("Capture");
+						duration = video.getDuration() - offset;
+						ro.getDurations().add((int) duration);
+						ro.getStartingPositions().add((int) offset);
+						offset = 0;
+						duration = 0;
+						
+						// setup files
+						ThumbnailEditor.deselect();
+						ro.setPackage(command.interpretString(videoName.getText()) + ".mp4", 
+								command.interpretString(videoName.getText()) + ".png", 
+								ThumbnailEditor.generateThumbnail());
 						
 						initRenderList();
 				        
 				        columnpanel.repaint();
 						
 					}
-					
-				});
-				
-				createThumbnails.addActionListener(new ActionListener() {
-
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						if(ro != null) ro.renderImages(video);
-					}
-					
-				});
-				
-				renderAll.addActionListener(new ActionListener() {
-
-					@Override
-					public void actionPerformed(ActionEvent arg0) {
-						if(ro != null) {
-							String tmp = ro.getStreamURL().replace("flv", "mp4");
-							if(!new File(tmp).exists()) {
-								JOptionPane.showMessageDialog(null, "MP4 not detected! Please click Convert to MP4 after stream has finished!");
-								return;
-							}
-							CheckStreaming cs = new CheckStreaming(ro.getStreamURL());
-							if(cs.isStreaming()) {
-								JOptionPane.showMessageDialog(null, "Please stop file streaming before continuing!");
-								return;
-							}
-							ro.renderAll(video, 0);
-						}
-					}
-					
-				});
-				
-				changeUrl.addActionListener(new ChangeStream());
-				
-				convert.addActionListener(new ActionListener() {
-
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						CheckStreaming cs = new CheckStreaming(ro.getStreamURL());
-						if(cs.isStreaming()) {
-							JOptionPane.showMessageDialog(null, "Please stop file streaming before continuing!");
-							return;
-						}
-						video.setVideoInput(ro.getStreamURL());
-						video.convertToMp4();
-					}
-					
-				});
-				
-				repaint();
+				} catch (Exception e2) {
+					e2.printStackTrace();
+				}
 			}
 			
 		});
+		
+		saveObject.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+					new Thread(new Runnable() {
+						public void run() {
+							if(ro != null) {
+								RenderSave rs = new RenderSave();
+								rs.save(ro.getStreamURL(), ro.getStartingPositions(), ro.getDurations(), ro.getFileNames(), ro.getImages(), ro.getImageFileNames());
+							} else {
+								JOptionPane.showMessageDialog(null, "Render Object Broken? I'll rebuild it");
+								ro = new RenderObject(streamURL);
+								RenderSave rs = new RenderSave();
+								rs.save(ro.getStreamURL(), ro.getStartingPositions(), ro.getDurations(), ro.getFileNames(), ro.getImages(), ro.getImageFileNames());
+						}
+					}
+					}).start();
+			}
+			
+		});
+		
+		addNewStream.addActionListener(new NewStream());
+		
+		loadObject.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				RenderSave rs = new RenderSave();
+				rs.load();
+				if(rs.getStreamURL() == null) return;
+				ro = new RenderObject(rs.getStreamURL());
+				ro.setStartingPositions(rs.getStartingPositions());
+				ro.setDurations(rs.getDurations());
+				ro.setFileNames(rs.getFileNames());
+				ro.setThumbnails(rs.getImages());
+				ro.setImageFile(rs.getImageFileNames());
+				
+				initRenderList();
+		        
+		        columnpanel.repaint();
+				
+			}
+			
+		});
+		
+		createThumbnails.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(ro != null) ro.renderImages(video);
+			}
+			
+		});
+		
+		renderAll.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if(ro != null) {
+					String tmp = ro.getStreamURL().replace("flv", "mp4");
+					if(!new File(tmp).exists()) {
+						JOptionPane.showMessageDialog(null, "MP4 not detected! Please click Convert to MP4 after stream has finished!");
+						return;
+					}
+					CheckStreaming cs = new CheckStreaming(ro.getStreamURL());
+					if(cs.isStreaming()) {
+						JOptionPane.showMessageDialog(null, "Please stop file streaming before continuing!");
+						return;
+					}
+					ro.renderAll(video, 0);
+				}
+			}
+			
+		});
+		
+		changeUrl.addActionListener(new ChangeStream());
+		
+		convert.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				CheckStreaming cs = new CheckStreaming(ro.getStreamURL());
+				if(cs.isStreaming()) {
+					JOptionPane.showMessageDialog(null, "Please stop file streaming before continuing!");
+					return;
+				}
+				video.setVideoInput(ro.getStreamURL());
+				video.convertToMp4();
+			}
+			
+		});
+		
+		repaint();
 		
 	}
 	

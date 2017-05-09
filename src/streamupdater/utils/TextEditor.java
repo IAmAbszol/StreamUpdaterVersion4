@@ -41,6 +41,18 @@ public class TextEditor implements Serializable {
 	
 	private transient JFrame f;
 	
+	private transient JComboBox fontBox;
+	private transient JSpinner sizes;
+	private transient JSpinner red;
+	private transient JSpinner blue;
+	private transient JSpinner green;
+	private transient JSpinner widths;
+	private transient JSpinner heights;
+	private transient JCheckBox bolds;
+	private transient JCheckBox italics;
+	private transient JCheckBox adj;
+	private transient JComboBox align;
+	
 	public TextEditor(int s) {
 		f = new JFrame("Text Editor - Layer " + s);
 		f.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -68,7 +80,7 @@ public class TextEditor implements Serializable {
 		
 		String[] systemFont = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
 		
-		JComboBox fontBox = new JComboBox(systemFont);
+		fontBox = new JComboBox(systemFont);
 		fontBox.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		fontBox.setBounds(66, 51, 126, 20);
 		panel.add(fontBox);
@@ -78,7 +90,7 @@ public class TextEditor implements Serializable {
 		lblSize.setBounds(10, 77, 46, 14);
 		panel.add(lblSize);
 		
-		JSpinner sizes = new JSpinner();
+		sizes = new JSpinner();
 		sizes.setValue(size);
 		sizes.setBounds(66, 76, 72, 20);
 		panel.add(sizes);
@@ -88,21 +100,21 @@ public class TextEditor implements Serializable {
 		lblColor.setBounds(10, 102, 46, 14);
 		panel.add(lblColor);
 		
-		JSpinner red = new JSpinner();
+		red = new JSpinner();
 		red.setValue(r);
 		red.setToolTipText("Red");
 		red.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		red.setBounds(65, 101, 50, 20);
 		panel.add(red);
 		
-		JSpinner green = new JSpinner();
+		green = new JSpinner();
 		green.setValue(g);
 		green.setToolTipText("Green");
 		green.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		green.setBounds(110, 101, 50, 20);
 		panel.add(green);
 		
-		JSpinner blue = new JSpinner();
+		blue = new JSpinner();
 		blue.setValue(b);
 		blue.setToolTipText("Blue");
 		blue.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -110,7 +122,7 @@ public class TextEditor implements Serializable {
 		panel.add(blue);
 		
 		String[] a = { "left", "right", "center" };
-		JComboBox align = new JComboBox(a);
+		align = new JComboBox(a);
 		align.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		align.setBounds(10, 280, 100, 20);
 		panel.add(align);
@@ -119,18 +131,18 @@ public class TextEditor implements Serializable {
 		btnSave.setBounds(10, 320, 168, 23);
 		panel.add(btnSave);
 		
-		JCheckBox bolds = new JCheckBox("Bold");
+		bolds = new JCheckBox("Bold");
 		bolds.setSelected(true);
 		bolds.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		bolds.setBounds(10, 195, 97, 23);
 		panel.add(bolds);
 		
-		JCheckBox italics = new JCheckBox("Italic");
+		italics = new JCheckBox("Italic");
 		italics.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		italics.setBounds(10, 221, 97, 23);
 		panel.add(italics);
 		
-		JCheckBox adj = new JCheckBox("Adjust Text");
+		adj = new JCheckBox("Adjust Text");
 		adj.setToolTipText("Attempts to recognize and adjust the size of font, beta.");
 		adj.setSelected(true);
 		adj.setFont(new Font("Tahoma", Font.PLAIN, 10));
@@ -143,12 +155,12 @@ public class TextEditor implements Serializable {
 		lblNewLabel.setBounds(10, 127, 168, 30);
 		panel.add(lblNewLabel);
 		
-		JSpinner widths = new JSpinner();
+		widths = new JSpinner();
 		widths.setValue(width);
 		widths.setBounds(10, 168, 75, 20);
 		panel.add(widths);
 		
-		JSpinner heights = new JSpinner();
+		heights = new JSpinner();
 		heights.setValue(height);
 		heights.setBounds(103, 168, 75, 20);
 		panel.add(heights);
@@ -176,6 +188,68 @@ public class TextEditor implements Serializable {
 		
 		f.setResizable(false);
 		f.setVisible(true);
+	}
+	
+	public void formatGui() {
+		
+		String[] systemFont = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+		for(int i = 0; i < systemFont.length; i++)
+			if(systemFont[i].equals(font)) {
+				fontBox.setSelectedIndex(i);
+				break;
+			}
+		
+		sizes.setValue(getSize());
+		red.setValue(color[0]);
+		green.setValue(color[1]);
+		blue.setValue(color[2]);
+		widths.setValue(getWidth());
+		heights.setValue(getHeight());
+		bolds.setSelected(isBold());
+		italics.setSelected(isItalic());
+		adj.setSelected(isAdjusted());
+		align.setSelectedItem(getAlignment());
+		
+	}
+	
+	public void setFont(String f) {
+		font = f;
+	}
+	
+	public void setAdjusted(boolean b) {
+		adjust = b;
+	}
+	
+	public void setAlignment(String a) {
+		alignment = a;
+	}
+	
+	public void setSize(int s) {
+		 size = s;
+	}
+	
+	public void setWidth(int w) {
+		width = w;
+	}
+	
+	public void setHeight(int h) {
+		height = h;
+	}
+	
+	public void setColor(int [] rgb) {
+		color = rgb;
+	}
+	
+	public void setBold(boolean b) {
+		bold = b;
+	}
+	
+	public void setItalic(boolean b) {
+		italic = b;
+	}
+	
+	public void isAdjusted(boolean b) {
+		adjust = b;
 	}
 	
 	public boolean isComplete() {

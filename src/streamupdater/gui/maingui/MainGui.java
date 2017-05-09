@@ -26,6 +26,7 @@ import streamupdater.gui.components.StreamCapture;
 import streamupdater.gui.components.StreamUpdater;
 import streamupdater.gui.components.ThumbnailEditor;
 import streamupdater.gui.components.TournamentEnlisting;
+import streamupdater.gui.components.Uploader;
 
 @SuppressWarnings("serial")
 public class MainGui extends JFrame {
@@ -36,6 +37,7 @@ public class MainGui extends JFrame {
 	private StreamUpdater su;
 	private StreamCapture sc;
 	private ThumbnailEditor thumb;
+	private Uploader upload;
 	
 	private static int taskBarSize = 0;
 
@@ -88,6 +90,9 @@ public class MainGui extends JFrame {
 		
 		thumb = new ThumbnailEditor();
 		tabbedPane.addTab("<html><body><table width='250'>Thumbnail Editor</table></body></html>", thumb);
+		
+		upload = new Uploader();
+		tabbedPane.addTab("<html><body><table width='250'>Uploading</table></body></html>", upload);
 		
 		tabbedPane.setUI(new BasicTabbedPaneUI() {
 			   @Override
