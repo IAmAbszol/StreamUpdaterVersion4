@@ -26,6 +26,8 @@ public class ThumbnailObject implements Serializable {
 	private boolean bold = false;
 	private boolean italic = false;
 	private boolean adjust = false;
+	private boolean outline = false;
+	private int outlineSize = 0;
 	private String font = "Arial";
 	private String alignment = "left";
 	
@@ -61,6 +63,8 @@ public class ThumbnailObject implements Serializable {
 		bold = false;
 		italic = false;
 		adjust = false;
+		outline = false;
+		outlineSize = 0;
 		font = "Arial";
 		alignment = "left";
 	}
@@ -193,6 +197,14 @@ public class ThumbnailObject implements Serializable {
 		adjust = b;
 	}
 	
+	public void setOutline(boolean b) {
+		outline = b;
+	}
+	
+	public void setOutlineSize(int s) { 
+		outlineSize = s;
+	}
+	
 	public boolean isBold() {
 		return bold;
 	}
@@ -203,6 +215,14 @@ public class ThumbnailObject implements Serializable {
 	
 	public boolean isAdjusted() {
 		return adjust;
+	}
+	
+	public boolean isOutline() {
+		return outline;
+	}
+	
+	public int getOutlineSize() {
+		return outlineSize;
 	}
 
 	

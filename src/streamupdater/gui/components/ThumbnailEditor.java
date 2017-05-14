@@ -398,6 +398,8 @@ public class ThumbnailEditor extends JPanel implements Runnable, KeyListener, Mo
 					te[pos].setWidth(editor.get(pos).getWidth());
 					te[pos].setHeight(editor.get(pos).getHeight());
 					te[pos].getFrame().setVisible(false);
+					te[pos].setOutline(editor.get(pos).getOutline());
+					te[pos].setOutlineSize(editor.get(pos).getOutlineSize());
 					// load defaults, this will be overriden when saved
 					layers[pos].setFont(te[pos].getFont());
 					layers[pos].setAlignment(te[pos].getAlignment());
@@ -413,7 +415,6 @@ public class ThumbnailEditor extends JPanel implements Runnable, KeyListener, Mo
 					layers[pos].setY(to.get(pos).getY());
 					layers[pos].setReversed(to.get(pos).isReversed());		
 					reupdateImagesOverride();
-					System.out.println(pos);
 					te[pos].formatGui();
 				} else 
 					if(layers[pos].getFile().getName().contains("png") ||
@@ -469,6 +470,8 @@ public class ThumbnailEditor extends JPanel implements Runnable, KeyListener, Mo
 						layers[pos].setBold(te[pos].isBold());
 						layers[pos].setItalic(te[pos].isItalic());
 						layers[pos].setAdjusted(te[pos].isAdjusted());
+						layers[pos].setOutline(te[pos].getOutline());
+						layers[pos].setOutlineSize(te[pos].getOutlineSize());
 						layers[pos].setWidth(te[pos].getWidth());
 						layers[pos].setHeight(te[pos].getHeight());
 						layers[pos].setImage(convertTextToImage(layers[pos].getFile(), pos));
@@ -705,6 +708,19 @@ public class ThumbnailEditor extends JPanel implements Runnable, KeyListener, Mo
 		}
 	}
 	
+	private static int ShiftNorth(int p, int distance) {
+		return (p - distance);
+	}
+	private static int ShiftSouth(int p, int distance) {
+		return (p + distance);
+	}
+	private static int ShiftEast(int p, int distance) {
+		return (p + distance);
+	}
+	private static int ShiftWest(int p, int distance) {
+		return (p - distance);
+    }
+	
 	// really simple
 	public static BufferedImage convertTextToImage(File f, int i) {
 		try {
@@ -719,6 +735,8 @@ public class ThumbnailEditor extends JPanel implements Runnable, KeyListener, Mo
 			layers[i].setAdjusted(te[i].isAdjusted());
 			layers[i].setWidth(te[i].getWidth());
 			layers[i].setHeight(te[i].getHeight());
+			layers[i].setOutline(te[i].getOutline());
+			layers[i].setOutlineSize(te[i].getOutlineSize());
 			if(layers[i].isBold()) type = Font.BOLD;
 			if(layers[i].isItalic()) type = type | Font.ITALIC;
 			
@@ -751,53 +769,110 @@ public class ThumbnailEditor extends JPanel implements Runnable, KeyListener, Mo
 						if(overrideSizes[z] > layers[i].getSize()) {
 							if(z - reduce >= 0) {
 								layers[i].setSize(overrideSizes[z - reduce]);
-								if(layers[i].getAlignment().equals("right") || layers[i].getAlignment().equals("center")) {
-									if(z - (reduce + 1) >= 0) layers[i].setSize(overrideSizes[z - (reduce + 1)]);
-								}
 							} else {
 								layers[i].setSize(overrideSizes[0]);
 							}
-							break;
+								break;
+							}
 						}
 					}
-				}
-				// draw to image, ignore controllers wish of width, we will do that later
-				actual = new BufferedImage(longest, layers[i].getHeight(), BufferedImage.TYPE_INT_ARGB);
-				gx.dispose();
-				tmp = null;
-				gx = actual.createGraphics();
-				gx.setColor(new Color(te[i].getColor()[0], te[i].getColor()[1], te[i].getColor()[2]));
-				gx.setFont(new Font(layers[i].getFont(), type, layers[i].getSize()));
-				reader.close();
-				reader = new BufferedReader(new FileReader(f));
-				while((line = reader.readLine()) != null) {
-					gx.drawString(line,0, (tmpy += gx.getFontMetrics().getHeight()));
-				}
-				reader.close();
-				// now lets resize this
-				ghetto = new BufferedImage(layers[i].getWidth(), layers[i].getHeight(), BufferedImage.TYPE_INT_ARGB);
-				Graphics2D g2x = ghetto.createGraphics();
-				g2x.drawImage(actual, 0, 0, layers[i].getWidth(), layers[i].getHeight(), null);
-				g2x.dispose();
-				return ghetto;
+					// draw to image, ignore controllers wish of width, we will do that later
+					actual = new BufferedImage(longest, layers[i].getHeight(), BufferedImage.TYPE_INT_ARGB);
+					gx.dispose();
+					tmp = null;
+					gx = actual.createGraphics();
+					gx.setColor(new Color(te[i].getColor()[0], te[i].getColor()[1], te[i].getColor()[2]));
+					gx.setFont(new Font(layers[i].getFont(), type, layers[i].getSize()));
+					reader.close();
+					tmpy += gx.getFontMetrics().getHeight();
+					reader = new BufferedReader(new FileReader(f));
+					while((line = reader.readLine()) != null) {
+						if(layers[i].isOutline()) {
+							gx.setColor(Color.black);
+							int size = layers[i].getOutlineSize();
+							gx.drawString(line, ShiftWest(0, size), ShiftNorth(tmpy, size));
+							gx.drawString(line, ShiftWest(0, size), ShiftSouth(tmpy, size));
+							gx.drawString(line, ShiftEast(0, size), ShiftNorth(tmpy, size));
+							gx.drawString(line, ShiftEast(0, size), ShiftSouth(tmpy, size));
+							gx.drawString(line, ShiftWest(0, size), tmpy);
+							gx.drawString(line, ShiftEast(0, size), tmpy);
+							gx.drawString(line, 0, ShiftNorth(tmpy, size));
+							gx.drawString(line, 0, ShiftSouth(tmpy, size));
+						}
+						gx.setColor(new Color(te[i].getColor()[0], te[i].getColor()[1], te[i].getColor()[2]));
+						gx.drawString(line,0, tmpy);
+						tmpy += gx.getFontMetrics().getHeight();
+					}
+					reader.close();
+					// now lets resize this
+					ghetto = new BufferedImage(layers[i].getWidth(), layers[i].getHeight(), BufferedImage.TYPE_INT_ARGB);
+					Graphics2D g2x = ghetto.createGraphics();
+					g2x.drawImage(actual, 0, 0, layers[i].getWidth(), layers[i].getHeight(), null);
+					g2x.dispose();
+					return ghetto;
 			} else {
 				actual = new BufferedImage(layers[i].getWidth(), layers[i].getHeight(), BufferedImage.TYPE_INT_ARGB);
 				gx.dispose();
 				tmp = null;
 				gx = actual.createGraphics();
-				gx.setColor(new Color(te[i].getColor()[0], te[i].getColor()[1], te[i].getColor()[2]));
 				gx.setFont(new Font(layers[i].getFont(), type, layers[i].getSize()));
 				reader.close();
 				reader = new BufferedReader(new FileReader(f));
+				tmpy += gx.getFontMetrics().getHeight();
 				while((line = reader.readLine()) != null) {
-					if(layers[i].getAlignment().equals("left"))
-						gx.drawString(line,0, (tmpy += gx.getFontMetrics().getHeight()));
-					else
-					if(layers[i].getAlignment().equals("right"))
-						gx.drawString(line, layers[i].getWidth() - gx.getFontMetrics().stringWidth(line), (tmpy += gx.getFontMetrics().getHeight()));
-					else
-					if(layers[i].getAlignment().equals("center"))
-						gx.drawString(line, (layers[i].getWidth() / 2) - (gx.getFontMetrics().stringWidth(line) / 2), (tmpy += gx.getFontMetrics().getHeight()));
+					if(layers[i].getAlignment().equals("left")) {
+						if(layers[i].isOutline()) {
+							gx.setColor(Color.black);
+							int size = layers[i].getOutlineSize();
+							gx.drawString(line, ShiftWest(0, size), ShiftNorth(tmpy, size));
+							gx.drawString(line, ShiftWest(0, size), ShiftSouth(tmpy, size));
+							gx.drawString(line, ShiftEast(0, size), ShiftNorth(tmpy, size));
+							gx.drawString(line, ShiftEast(0, size), ShiftSouth(tmpy, size));
+							gx.drawString(line, ShiftWest(0, size), tmpy);
+							gx.drawString(line, ShiftEast(0, size), tmpy);
+							gx.drawString(line, 0, ShiftNorth(tmpy, size));
+							gx.drawString(line, 0, ShiftSouth(tmpy, size));
+						}
+						gx.setColor(new Color(te[i].getColor()[0], te[i].getColor()[1], te[i].getColor()[2]));
+						gx.drawString(line,0, (tmpy));
+						tmpy += gx.getFontMetrics().getHeight();
+					} else
+					if(layers[i].getAlignment().equals("right")) {
+						if(layers[i].isOutline()) {
+							gx.setColor(Color.black);
+							int size = layers[i].getOutlineSize();
+							int shiftx = layers[i].getWidth() - gx.getFontMetrics().stringWidth(line);
+							gx.drawString(line, ShiftWest(shiftx, size), ShiftNorth(tmpy, size));
+							gx.drawString(line, ShiftWest(shiftx, size), ShiftSouth(tmpy, size));
+							gx.drawString(line, ShiftEast(shiftx, size), ShiftNorth(tmpy, size));
+							gx.drawString(line, ShiftEast(shiftx, size), ShiftSouth(tmpy, size));
+							gx.drawString(line, ShiftWest(shiftx, size), tmpy);
+							gx.drawString(line, ShiftEast(shiftx, size), tmpy);
+							gx.drawString(line, shiftx, ShiftNorth(tmpy, size));
+							gx.drawString(line, shiftx, ShiftSouth(tmpy, size));
+						}
+						gx.setColor(new Color(te[i].getColor()[0], te[i].getColor()[1], te[i].getColor()[2]));
+						gx.drawString(line, layers[i].getWidth() - gx.getFontMetrics().stringWidth(line), tmpy);
+						tmpy += gx.getFontMetrics().getHeight();
+					} else
+					if(layers[i].getAlignment().equals("center")) {
+						if(layers[i].isOutline()) {
+							gx.setColor(Color.black);
+							int size = layers[i].getOutlineSize();
+							int shiftx = (layers[i].getWidth() / 2) - (gx.getFontMetrics().stringWidth(line) / 2);
+							gx.drawString(line, ShiftWest(shiftx, size), ShiftNorth(tmpy, size));
+							gx.drawString(line, ShiftWest(shiftx, size), ShiftSouth(tmpy, size));
+							gx.drawString(line, ShiftEast(shiftx, size), ShiftNorth(tmpy, size));
+							gx.drawString(line, ShiftEast(shiftx, size), ShiftSouth(tmpy, size));
+							gx.drawString(line, ShiftWest(shiftx, size), tmpy);
+							gx.drawString(line, ShiftEast(shiftx, size), tmpy);
+							gx.drawString(line, shiftx, ShiftNorth(tmpy, size));
+							gx.drawString(line, shiftx, ShiftSouth(tmpy, size));
+						}
+						gx.setColor(new Color(te[i].getColor()[0], te[i].getColor()[1], te[i].getColor()[2]));
+						gx.drawString(line, (layers[i].getWidth() / 2) - (gx.getFontMetrics().stringWidth(line) / 2), tmpy);
+						tmpy += gx.getFontMetrics().getHeight();
+					}
 				}
 				reader.close();
 				return actual;

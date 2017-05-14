@@ -38,6 +38,8 @@ public class TextEditor implements Serializable {
 	private boolean adjust = false;
 	private String font = "Arial";
 	private String alignment = "left";
+	private boolean outline = false;
+	private int outlineThickness = 1;
 	
 	private transient JFrame f;
 	
@@ -52,6 +54,8 @@ public class TextEditor implements Serializable {
 	private transient JCheckBox italics;
 	private transient JCheckBox adj;
 	private transient JComboBox align;
+	private transient JCheckBox outlineText;
+	private transient JSpinner outlineSize;
 	
 	public TextEditor(int s) {
 		f = new JFrame("Text Editor - Layer " + s);
@@ -134,7 +138,7 @@ public class TextEditor implements Serializable {
 		bolds = new JCheckBox("Bold");
 		bolds.setSelected(true);
 		bolds.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		bolds.setBounds(10, 195, 97, 23);
+		bolds.setBounds(10, 195, 50, 23);
 		panel.add(bolds);
 		
 		italics = new JCheckBox("Italic");
@@ -148,6 +152,19 @@ public class TextEditor implements Serializable {
 		adj.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		adj.setBounds(10, 247, 97, 23);
 		panel.add(adj);
+
+		outlineText = new JCheckBox("Outline");
+		outlineText.setSelected(false);
+		outlineText.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		outlineText.setBounds(90, 195, 60, 23);
+		panel.add(outlineText);
+		
+		outlineSize = new JSpinner();
+		outlineSize.setToolTipText("Outline Thickness");
+		outlineSize.setEnabled(false);
+		outlineSize.setValue(0);
+		outlineSize.setBounds(150, 195, 50, 20);
+		panel.add(outlineSize);
 		
 		JLabel lblNewLabel = new JLabel("Width & Height");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -165,6 +182,17 @@ public class TextEditor implements Serializable {
 		heights.setBounds(103, 168, 75, 20);
 		panel.add(heights);
 		
+		outlineText.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if(outlineText.isSelected()) outlineSize.setEnabled(true);
+				else
+					outlineSize.setEnabled(false);
+			}
+			
+		});
+		
 		btnSave.addActionListener(new ActionListener() {
 
 			@Override
@@ -180,6 +208,8 @@ public class TextEditor implements Serializable {
 				bold = bolds.isSelected();
 				italic = italics.isSelected();
 				adjust = adj.isSelected();
+				outline = outlineText.isSelected();
+				outlineThickness = (int) outlineSize.getValue();
 				ThumbnailEditor.reupdateImagesOverride();
 				completed = true;
 			}
@@ -209,7 +239,25 @@ public class TextEditor implements Serializable {
 		italics.setSelected(isItalic());
 		adj.setSelected(isAdjusted());
 		align.setSelectedItem(getAlignment());
+		outlineSize.setValue(getOutlineSize());
+		outlineText.setSelected(getOutline());
 		
+	}
+	
+	public void setOutlineSize(int s) {
+		outlineThickness = s;
+	}
+	
+	public void setOutline(boolean b) {
+		outline = b;
+	}
+	
+	public int getOutlineSize() {
+		return outlineThickness;
+	}
+	
+	public boolean getOutline() {
+		return outline;
 	}
 	
 	public void setFont(String f) {
