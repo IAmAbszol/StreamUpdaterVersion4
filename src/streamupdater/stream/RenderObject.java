@@ -5,12 +5,15 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import streamupdater.uploader.VideoUploader;
+
 /*
  * Class utilized to be a save for each game stream positions, etc
  */
 public class RenderObject {
 	
 	private String renderPath = null;
+	private ArrayList<Packet> packet;
 	private ArrayList<Integer> startingPositions;
 	private ArrayList<Integer> durations;
 	private ArrayList<String> fileNames;
@@ -24,6 +27,7 @@ public class RenderObject {
 			ArrayList<BufferedImage> images,
 			ArrayList<String> imageName) {
 		renderPath = url;
+		// loop through, add package to .get(i)
 		startingPositions = sp;
 		durations = dur;
 		fileNames = fileName;
@@ -41,6 +45,8 @@ public class RenderObject {
 	}
 	
 	public void setPackage(String fileName, 
+			
+			
 			String imageName,
 			BufferedImage image) {
 		getFileNames().add(fileName);
@@ -130,6 +136,14 @@ public class RenderObject {
 		video.setImage(getImages().get(pos));
 		video.setImageFileLocation(getImageFileNames().get(pos));
 		video.encode();
+	}
+	
+	public void upload(VideoUploader upload, String view, ArrayList<String> tags, String description, int pos) {
+		upload.upload(getFileNames().get(pos), getImageFileNames().get(pos), view, tags, description);
+	}
+	
+	public void uploadAll(VideoUploader upload, String view, ArrayList<String> tags, String description) {
+		upload.uploadAll(getFileNames(), getImageFileNames(), view, tags, description);
 	}
 	
 	public void renderAll(VideoHandler video, int extra) {

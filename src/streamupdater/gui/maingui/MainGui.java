@@ -27,6 +27,7 @@ import streamupdater.gui.components.StreamUpdater;
 import streamupdater.gui.components.ThumbnailEditor;
 import streamupdater.gui.components.TournamentEnlisting;
 import streamupdater.gui.components.Uploader;
+import streamupdater.uploader.VideoUploader;
 
 @SuppressWarnings("serial")
 public class MainGui extends JFrame {
@@ -37,7 +38,8 @@ public class MainGui extends JFrame {
 	private StreamUpdater su;
 	private StreamCapture sc;
 	private ThumbnailEditor thumb;
-	private Uploader upload;
+	
+	private static JTabbedPane tabbedPane;
 	
 	private static int taskBarSize = 0;
 
@@ -71,7 +73,7 @@ public class MainGui extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.LEFT);
+		tabbedPane = new JTabbedPane(JTabbedPane.LEFT);
 		tabbedPane.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		tabbedPane.setBackground(Color.DARK_GRAY);
 		tabbedPane.setForeground(Color.white);
@@ -91,9 +93,6 @@ public class MainGui extends JFrame {
 		thumb = new ThumbnailEditor();
 		tabbedPane.addTab("<html><body><table width='250'>Thumbnail Editor</table></body></html>", thumb);
 		
-		upload = new Uploader();
-		tabbedPane.addTab("<html><body><table width='250'>Uploading</table></body></html>", upload);
-		
 		tabbedPane.setUI(new BasicTabbedPaneUI() {
 			   @Override
 			   protected void installDefaults() {
@@ -103,6 +102,8 @@ public class MainGui extends JFrame {
 			       darkShadow = Color.BLACK;
 			   }
 		});
+		
+		
 		
 		tabbedPane.getModel().addChangeListener(new ChangeListener() {
 	         @Override
@@ -155,4 +156,9 @@ public class MainGui extends JFrame {
 	public static int getTaskBarSize() {
 		return taskBarSize;
 	}
+	
+	public static JTabbedPane getPane() {
+		return tabbedPane;
+	}
+	
 }

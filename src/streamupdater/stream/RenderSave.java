@@ -1,6 +1,8 @@
 package streamupdater.stream;
 
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -104,7 +106,11 @@ public class RenderSave implements Serializable {
 			this.setThumbnails(images);
 			oos.writeInt(this.getImages().size());
 			for(BufferedImage eachImage : this.getImages()) {
-				ImageIO.write(eachImage, "png", oos);
+				ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+		        ImageIO.write(eachImage, "jpg", buffer);
+
+		        oos.writeInt(buffer.size()); // Prepend image with byte count
+		        buffer.writeTo(oos);         // Write image
 			}
 			oos.close();	
 		} catch (Exception e) {
@@ -121,10 +127,15 @@ public class RenderSave implements Serializable {
 				ObjectInputStream ois = new ObjectInputStream(fis);
 				ro = (RenderSave) ois.readObject();
 				final int imageCount = ois.readInt();
-				thumbnails = new ArrayList<BufferedImage>(imageCount);
-				for(int i = 0; i < imageCount; i++) {
-					thumbnails.add(ImageIO.read(ois));
-				}
+			    thumbnails = new ArrayList<BufferedImage>(imageCount);
+			    for (int i = 0; i < imageCount; i++) {
+			        int size = ois.readInt(); // Read byte count
+
+			        byte[] buffer = new byte[size];
+			        ois.readFully(buffer); // Make sure you read all bytes of the image
+
+			        thumbnails.add(ImageIO.read(new ByteArrayInputStream(buffer)));
+			    }
 				ois.close();
 			}
 			if(ro == null) return;
@@ -138,22 +149,5 @@ public class RenderSave implements Serializable {
 			e.printStackTrace();
 		}
 	}
-	
-	private String findSave() {
-		String user = System.getProperty("user.name");
-		if(System.getProperty("os.name").contains("Windows")) {
-			return "C:/Users/"+user+"/Desktop/";
-		} else
-			return System.getProperty("user.home") + "/Desktop/";
-	}
-	
-	private String findFile(String name) {
-		String user = System.getProperty("user.name");
-		if(System.getProperty("os.name").contains("Windows")) {
-			return "C:/Users/"+user+"/AppData/Roaming/"+ name;
-		} else
-			return System.getProperty("user.home") + "/" + name;
-	}
-	
 	
 }

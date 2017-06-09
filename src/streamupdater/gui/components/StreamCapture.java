@@ -4,11 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -16,6 +14,7 @@ import java.io.InputStreamReader;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -27,7 +26,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
-import streamupdater.files.FileManager;
+import streamupdater.gui.maingui.MainGui;
 import streamupdater.stream.RenderObject;
 import streamupdater.stream.RenderSave;
 import streamupdater.stream.VideoHandler;
@@ -38,8 +37,10 @@ import streamupdater.utils.Commands;
 public class StreamCapture extends JPanel {
 
 	private Commands command;
-	private RenderObject ro;
-	private VideoHandler video;
+	private static RenderObject ro;
+	private static VideoHandler video;
+	
+	private Uploader upload;
 	
 	private JLabel streamCapture;
 	private JButton begin;
@@ -55,6 +56,8 @@ public class StreamCapture extends JPanel {
 	private JButton renderAll;
 	private JButton createThumbnails;
 	private JButton addNewStream;
+
+	//private JCheckBox autoUpload;
 	
 	// renderlist
 	private JPanel[] renderPanel;
@@ -172,6 +175,8 @@ public class StreamCapture extends JPanel {
 						ro = new RenderObject(streamURL);
 						video.setVideoInput(streamURL);
 						capture.setToolTipText("Capturing at " + streamURL);
+						upload = new Uploader(ro, video);
+						MainGui.getPane().addTab("<html><body><table width='250'>Uploading</table></body></html>", upload);
 					}
 					
 				});
@@ -242,7 +247,7 @@ public class StreamCapture extends JPanel {
 		renderAll.setBounds(976, 945, 184, 63);
 		add(renderAll);
 		
-		videoName = new JTextField("CURRENTROUND - PLAYERONENAME vs PLAYERTWONAME - MAINTITLE");
+		videoName = new JTextField("MAINTITLE PLAYERONENAME vs PLAYERTWONAME - CURRENTROUND");
 		videoName.setToolTipText(buildCommandList());
 		videoName.setFont(new Font("Arial Black", Font.BOLD, 14));
 		videoName.setBounds(10, 440, 300, 40);
@@ -250,6 +255,17 @@ public class StreamCapture extends JPanel {
 		videoName.setColumns(10);
 		videoName.setEnabled(true);
 		add(videoName);
+		
+		/*
+		autoUpload = new JCheckBox();
+		autoUpload.setText("Automatically Upload To YouTube");
+		autoUpload.setBackground(Color.DARK_GRAY);
+		autoUpload.setToolTipText("If the client_secret.json was recognized, no problems should occur.");
+		autoUpload.setFont(new Font("Arial Black", Font.BOLD, 14));
+		autoUpload.setBounds(10, 500, 350, 40);
+		autoUpload.setSelected(false);
+		add(autoUpload);
+		*/
 		
 		JButton refresh = new JButton("Refresh");
 		refresh.setToolTipText("Temporary till repaint is fixed");
@@ -299,6 +315,7 @@ public class StreamCapture extends JPanel {
 								ThumbnailEditor.generateThumbnail());
 						
 						initRenderList();
+						upload.initUploadList();
 				        
 				        columnpanel.repaint();
 						
@@ -443,6 +460,7 @@ public class StreamCapture extends JPanel {
             // build label
             description[i] = new JLabel("");
             description[i].setText(ro.getFileNames().get(i));
+            description[i].setToolTipText(ro.getFileNames().get(i));
 			description[i].setFont(new Font("Dialog", Font.PLAIN, 12));
 			description[i].setBounds(10, 5, 366, 23);
 			renderPanel[i].add(description[i]);
@@ -485,6 +503,7 @@ public class StreamCapture extends JPanel {
 				ro.removePartObject(pos);
 				initRenderList();
 				repaint();
+				upload.initUploadList();
 			}
 			
 		}
@@ -501,13 +520,13 @@ public class StreamCapture extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				String tmp = ro.getStreamURL().replace("flv", "mp4");
 				if(!new File(tmp).exists()) {
-					JOptionPane.showMessageDialog(null, "MP4 not detected! Please click Convert to MP4 after stream has finished!");
+					JOptionPane.showMessageDialog(null, "MP4 not detected! Please click Convert To MP4 after stream has finished!");
 					return;
 				}
 				ro.render(video, pos, 0);
-				ro.removePartObject(pos);
-				initRenderList();
-				repaint();
+				//ro.removePartObject(pos);
+				//initRenderList();
+				//repaint();
 			}
 			
 		}
@@ -693,6 +712,14 @@ public class StreamCapture extends JPanel {
 				frame.setVisible(true);
 			}
 			
+		}
+		
+		public static RenderObject grabObject() {
+			return ro;
+		}
+		
+		public static VideoHandler grabVideo() {
+			return video;
 		}
 		
 }

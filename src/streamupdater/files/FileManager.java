@@ -15,7 +15,7 @@ public class FileManager {
 
 	private static String path = "";
 	
-	private static String[] parentDirectories = { "Media", "Game", "Text", "Saves", "Templates" };
+	private static String[] parentDirectories = { "Media", "Game", "Text", "Saves", "Templates", "Uploading" };
 	private static String[] gameSubDir = { "Characters", "Commentators", "Players", "Sponsors" };
 	
 	private String[] files = { "maintitle.txt", "round.txt", "player1name.txt", "player2name.txt", "player1score.txt", "player2score.txt", "commentator1.txt", "commentator2.txt", "player1character.png", 
@@ -115,6 +115,10 @@ public class FileManager {
 	/*
 	 * Path returns
 	 */
+	
+	public static String getUploadingDirectory() {
+		return path + "/" + parentDirectories[5];
+	}
 	
 	public static String getTemplatesDirectory() {
 		return path + "/" + parentDirectories[4];

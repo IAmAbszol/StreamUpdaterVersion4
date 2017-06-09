@@ -18,7 +18,7 @@ public class CheckStreaming {
 	public boolean isStreaming() {
 	
 		if(!f.exists()) {
-			JOptionPane.showMessageDialog(null, "File Not Found! Please reintilize the class with proper file.");
+			JOptionPane.showMessageDialog(null, "File Not Found! Please reintilize the class with a proper file.");
 			return false;
 		}
 
