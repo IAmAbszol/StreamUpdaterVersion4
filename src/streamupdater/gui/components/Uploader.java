@@ -159,6 +159,11 @@ public class Uploader extends JPanel {
         revalidate();
         
 	}
+	
+	public void reconnect(RenderObject ro, VideoHandler video) {
+		 this.ro = ro;
+	     this.video = video;
+	}
 
 	private class Remove implements ActionListener {
 		

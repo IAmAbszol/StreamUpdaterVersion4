@@ -365,6 +365,9 @@ public class StreamCapture extends JPanel {
 				ro.setImageFile(rs.getImageFileNames());
 				
 				initRenderList();
+				
+				upload.reconnect(ro, video);
+				upload.initUploadList();
 		        
 		        columnpanel.repaint();
 				
