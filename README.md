@@ -2,14 +2,21 @@
 Control a stream like never before, customize and load custom Thumbnails, Capture and automatically render videos, and Upload straight to YouTube.
 
 Minimum Requirements
+
 2GHz processor or higher, to handle streaming with OBS or any other streaming platform.
+
 4GB RAM or higher, to handle streaming platforms.
+
 10GB of space or higher, to handle OBS file output and custom images produced from the Stream Updater.
 
 Recommended Requirements
+
 3GHz processor
+
 8GB RAM
+
 50GB of space
+
 
 How to use:
 1. Download the project and compile using Eclipse or any other method to compile the Java code.
