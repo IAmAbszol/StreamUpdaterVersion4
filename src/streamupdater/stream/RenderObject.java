@@ -147,24 +147,33 @@ public class RenderObject {
 	}
 	
 	public void renderAll(VideoHandler video, int extra) {
-		for(int i = 0; i < getDurations().size(); i++) {
-			
-			video.setDuration(getDurations().get(i) + extra);
-			video.setOffset(getStartingPositions().get(i));
-			video.setVideoInput(getStreamURL());
-			video.setVideoOutput(getFileNames().get(i));
-			video.setImage(getImages().get(i));
-			video.setImageFileLocation(getImageFileNames().get(i));
-			video.encode();
-			if(video.getProcess() != null) {
-				ProcMon.create(video.getProcess());
-				while(!ProcMon.isComplete()) {
-					System.out.print("");
+		Thread runningThread = new Thread(new Runnable() {
+			public void run() {
+				
+				for(int i = 0; i < getDurations().size(); i++) {
+					
+					video.setDuration(getDurations().get(i) + extra);
+					video.setOffset(getStartingPositions().get(i));
+					video.setVideoInput(getStreamURL());
+					video.setVideoOutput(getFileNames().get(i));
+					video.setImage(getImages().get(i));
+					video.setImageFileLocation(getImageFileNames().get(i));
+					video.encode();
+					if(video.getProcess() != null) {
+						ProcMon.create(video.getProcess());
+						while(!ProcMon.isComplete()) {
+							System.out.print("");
+						}
+					}
+					
 				}
+				JOptionPane.showMessageDialog(null, "Rendering Complete");
+	
 			}
-			
-		}
-		JOptionPane.showMessageDialog(null, "Rendering Complete");
+		});
+
+		runningThread.start();
+		
 	}
 	
 	public void renderImages(VideoHandler video) {
