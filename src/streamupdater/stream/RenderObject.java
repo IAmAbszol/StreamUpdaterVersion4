@@ -45,8 +45,6 @@ public class RenderObject {
 	}
 	
 	public void setPackage(String fileName, 
-			
-			
 			String imageName,
 			BufferedImage image) {
 		getFileNames().add(fileName);
@@ -142,7 +140,9 @@ public class RenderObject {
 		upload.upload(getFileNames().get(pos), getImageFileNames().get(pos), view, tags, description);
 	}
 	
-	public void uploadAll(VideoUploader upload, String view, ArrayList<String> tags, String description) {
+	public void uploadAll(VideoUploader upload, ArrayList<String> fileNames, ArrayList<String> imageNames, String view, ArrayList<String> tags, String description) {
+		this.setFileNames(fileNames);
+		this.setImageFile(imageNames);
 		upload.uploadAll(getFileNames(), getImageFileNames(), view, tags, description);
 	}
 	

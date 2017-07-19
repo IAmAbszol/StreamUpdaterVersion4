@@ -48,10 +48,15 @@ public class Uploader extends JPanel {
 	private JComboBox viewing;
 	private JTextField tags;
 	private JTextArea videoDescription;
+
+	private ArrayList<String> fn;
+	private ArrayList<String> in;
 	
 	public Uploader(RenderObject ro, VideoHandler video) {
 		
 		videoUploader = new VideoUploader();
+		fn = new ArrayList<String>();
+		in = new ArrayList<String>();
 		
 		setBackground(Color.DARK_GRAY);
 		setLayout(null);
@@ -105,7 +110,7 @@ public class Uploader extends JPanel {
 				String tmp = tags.getText();
 				String[] insert = tags.getText().split(",");
 				ArrayList<String> tagArray = new ArrayList<String>(Arrays.asList(insert));
-				ro.uploadAll(videoUploader, (String) viewing.getSelectedItem(), tagArray, videoDescription.getText());
+				ro.uploadAll(videoUploader, fn, in, (String) viewing.getSelectedItem(), tagArray, videoDescription.getText());
 			}
 			
         });
@@ -114,9 +119,21 @@ public class Uploader extends JPanel {
         
 	}
 	
+	public void setFileNames(ArrayList<String> fn) {
+		this.fn.clear();
+		this.fn.addAll(fn);
+	}
+	
+	public void setImageNames(ArrayList<String> in) {
+		this.in.clear();
+		this.in.addAll(in);
+	}
+	
 	public void initUploadList() {
 		
 		int size = ro.getDurations().size();
+		this.setFileNames(ro.getFileNames());
+		this.setImageNames(ro.getImageFileNames());
 		
 		uploadPanel = new JPanel[size];
 		description = new JLabel[size];

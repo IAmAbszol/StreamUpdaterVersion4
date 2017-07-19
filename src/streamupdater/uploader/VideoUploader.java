@@ -56,7 +56,6 @@ public class VideoUploader {
 	public void upload(String fileName, String thumbnailName, String view, ArrayList<String> tags, String description) {
 		
 		if(!checkClient()) return;
-		
 		List<String> scopes = Lists.newArrayList("https://www.googleapis.com/auth/youtube.upload");
 		
 		try {
@@ -256,7 +255,6 @@ public class VideoUploader {
 	public void uploadAll(ArrayList<String> fileName, ArrayList<String> images, String view, ArrayList<String> tags, String description) {
 		if(!checkClient()) return;
 		for(int i = 0; i < fileName.size(); i++) {
-
 			upload(fileName.get(i), images.get(i), view, tags, description);
 			
 		}
