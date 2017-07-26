@@ -127,19 +127,28 @@ public class RenderObject {
 	}
 	
 	public void render(VideoHandler video, int pos, int extra) {
-		video.setDuration(getDurations().get(pos) + extra);
-		video.setOffset(getStartingPositions().get(pos));
-		video.setVideoInput(getStreamURL());
-		video.setVideoOutput(getFileNames().get(pos));
-		video.setImage(getImages().get(pos));
-		video.setImageFileLocation(getImageFileNames().get(pos));
-		video.encode();
+		Thread t = new Thread(new Runnable() {
+			public void run() {
+				video.setDuration(getDurations().get(pos) + extra);
+				video.setOffset(getStartingPositions().get(pos));
+				video.setVideoInput(getStreamURL());
+				video.setVideoOutput(getFileNames().get(pos));
+				video.setImage(getImages().get(pos));
+				video.setImageFileLocation(getImageFileNames().get(pos));
+				video.encode();
+			}
+		});
+		t.start();
 	}
 	
 	public void upload(VideoUploader upload, String view, ArrayList<String> tags, String description, int pos) {
-		upload.upload(getFileNames().get(pos), getImageFileNames().get(pos), view, tags, description);
-	}
-	
+		Thread t = new Thread(new Runnable() {
+			public void run() {
+				upload.upload(getFileNames().get(pos), getImageFileNames().get(pos), view, tags, description);
+			}
+		});
+		t.start();
+	}	
 	public void uploadAll(VideoUploader upload, ArrayList<String> fileNames, ArrayList<String> imageNames, String view, ArrayList<String> tags, String description) {
 		this.setFileNames(fileNames);
 		this.setImageFile(imageNames);

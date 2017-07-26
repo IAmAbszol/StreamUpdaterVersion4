@@ -253,11 +253,14 @@ public class VideoUploader {
 	}
 	
 	public void uploadAll(ArrayList<String> fileName, ArrayList<String> images, String view, ArrayList<String> tags, String description) {
-		if(!checkClient()) return;
-		for(int i = 0; i < fileName.size(); i++) {
-			upload(fileName.get(i), images.get(i), view, tags, description);
-			
-		}
+		Thread t = new Thread(new Runnable() {
+			public void run() {
+				for(int i = 0; i < fileName.size(); i++) {
+					upload(fileName.get(i), images.get(i), view, tags, description);
+				}
+			}
+		});
+		t.start();
 	}
 		
 }
