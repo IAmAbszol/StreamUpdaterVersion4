@@ -608,6 +608,10 @@ public class ThumbnailEditor extends JPanel implements Runnable, KeyListener, Mo
 		g.drawImage(panelImage, 0, 0, genwidth, genheight, null);
 		g.dispose();
 		pause = false;
+		if(resized == null) {
+			resized = new BufferedImage(genwidth, genheight, BufferedImage.TYPE_INT_ARGB);
+			g = resized.createGraphics();
+		}
 		return resized;
 	}
 	

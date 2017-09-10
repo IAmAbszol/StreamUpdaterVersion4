@@ -64,6 +64,7 @@ public class StreamCapture extends JPanel {
 	private JLabel[] description;
 	private JButton[] remove;
 	private JButton[] render;
+	private JButton[] rename;
 	
 	private JFileChooser jfc;
 	
@@ -102,7 +103,7 @@ public class StreamCapture extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				
 				JFrame frame = new JFrame("Stream URL");
-				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 				frame.setBounds(100, 100, 450, 201);
 				JPanel contentPane = new JPanel();
 				contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -434,6 +435,7 @@ public class StreamCapture extends JPanel {
 		description = new JLabel[size];
 		remove = new JButton[size];
 		render = new JButton[size];
+		rename = new JButton[size];
 
 		if(columnpanel != null) borderlayoutpanel.remove(columnpanel);
 		columnpanel = new JPanel();
@@ -451,15 +453,21 @@ public class StreamCapture extends JPanel {
             // build remove
             remove[i] = new JButton("Remove");
             remove[i].setFont(new Font("Dialog", Font.PLAIN, 12));
-            remove[i].setBounds(485, 5, 89, 23);
+            remove[i].setBounds(470, 5, 85, 23);
             remove[i].addActionListener(new Remove(i));
             renderPanel[i].add(remove[i]);
             // build render
             render[i] = new JButton("Render");
             render[i].setFont(new Font("Dialog", Font.PLAIN, 12));
-            render[i].setBounds(386, 5, 89, 23);
+            render[i].setBounds(375, 5, 85, 23);
             render[i].addActionListener(new Render(i));
             renderPanel[i].add(render[i]);
+            // build rename
+            rename[i] = new JButton("Rename");
+            rename[i].setFont(new Font("Dialog", Font.PLAIN, 12));
+            rename[i].setBounds(565, 5, 85, 23);
+            rename[i].addActionListener(new Rename(i));
+            renderPanel[i].add(rename[i]);
             // build label
             description[i] = new JLabel("");
             description[i].setText(ro.getFileNames().get(i));
@@ -530,6 +538,69 @@ public class StreamCapture extends JPanel {
 				//ro.removePartObject(pos);
 				//initRenderList();
 				//repaint();
+			}
+			
+		}
+		
+		private class Rename implements ActionListener {
+			
+			int pos = 0;
+			
+			public Rename(int i) {
+				pos = i;
+			}
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFrame frame = new JFrame("File Rename");
+				frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				frame.setBounds(100, 100, 450, 150);
+				JPanel contentPane = new JPanel();
+				contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+				frame.setContentPane(contentPane);
+				contentPane.setLayout(null);
+				
+				JPanel panel = new JPanel();
+				panel.setBounds(10, 11, 414, 90);
+				contentPane.add(panel);
+				panel.setLayout(null);
+				
+				JLabel lblNewLabel = new JLabel("Rename File To");
+				lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+				lblNewLabel.setFont(new Font("Dialog", Font.BOLD, 14));
+				lblNewLabel.setBounds(10, 11, 394, 30);
+				panel.add(lblNewLabel);
+				
+				JTextField textField = new JTextField();
+				textField.setFont(new Font("Dialog", Font.PLAIN, 12));
+				textField.setBounds(10, 52, 295, 20);
+				panel.add(textField);
+				textField.setColumns(10);
+				
+				JButton launch = new JButton("Go");
+				launch.setFont(new Font("Dialog", Font.PLAIN, 12));
+				launch.setBounds(315, 51, 89, 23);
+				panel.add(launch);
+				
+				launch.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						if(textField.getText().equals("")) return;
+						ro.getFileNames().set(pos, command.interpretString(textField.getText()));
+						ro.getImageFileNames().set(pos, command.interpretString(textField.getText().replace(".mp4", ".png")));
+						repaint();
+						revalidate();
+						frame.dispose();
+						initRenderList();
+						upload.initUploadList();
+					}
+					
+				});
+
+				frame.setResizable(false);
+				frame.setVisible(true);
+				
 			}
 			
 		}
