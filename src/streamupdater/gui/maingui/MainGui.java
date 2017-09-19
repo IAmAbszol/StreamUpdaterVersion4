@@ -131,11 +131,11 @@ public class MainGui extends JFrame {
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		double widthMultiplier = dim.getWidth() / 1920;						// get multiplier width
 		double heightMultiplier = dim.getHeight() / (1080 - taskBarSize);	// get multiplier height
-		List<Component> list = getAllComponents(te);
+		List<Component> list = getAllComponents(this);
 		for(int i = 0; i < list.size(); i++) {
 			Component c = list.get(i);
-			list.get(i).setBounds(c.getX(), 
-					c.getY(), 
+			list.get(i).setBounds((int) (c.getX() * widthMultiplier), 
+					(int) (c.getY() * heightMultiplier), 
 					(int) (c.getWidth() * widthMultiplier), 
 					(int) (c.getHeight() * heightMultiplier)
 			);

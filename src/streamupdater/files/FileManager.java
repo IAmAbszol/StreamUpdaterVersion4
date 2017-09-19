@@ -475,10 +475,19 @@ public class FileManager {
 	  }
 	  
 	  public String getTeamOne() {
+		  if(playerOne == null || playerOne.equals("")) 
+			  return teamOne = playerTwo;
+		  if(playerTwo == null || playerTwo.equals("")) {
+			  return teamOne = playerOne;
+		  }
 		  return teamOne = playerOne + " " + teamCombineCharacter + " " + playerTwo;
 	  }
 	  
 	  public String getTeamTwo() {
+		  if(playerThree == null || playerThree.equals("")) 
+			  return teamTwo = playerFour;
+		  if(playerFour == null || playerFour.equals(""))
+			  return teamTwo = playerThree;
 		  return teamTwo = playerThree + " " + teamCombineCharacter + " " + playerFour;
 	  }
 	  
@@ -546,13 +555,13 @@ public class FileManager {
 	  
 	  public void setPlayerOne(String n)
 	  {
-		  if(!n.equals(""))
+		  //if(!n.equals(""))
 			  this.playerOne = n;
 	  }
 	  
 	  public void setPlayerTwo(String n)
 	  {
-		  if(!n.equals(""))
+		 // if(!n.equals(""))
 			  this.playerTwo = n;
 	  }
 	  
@@ -591,15 +600,23 @@ public class FileManager {
 	  }
 	  
 	  public void setTeamOne(String one, String con, String two) {
-		  if(one.equals("") || one.equals(" ")) one = playerOne;
-		  if(two.equals("") || two.equals(" ")) two = playerTwo;
-		  teamOne = one + " " + con + " " + two;
+		  //if(one.equals("") || one.equals(" ")) one = playerOne;
+		  //if(two.equals("") || two.equals(" ")) two = playerTwo;
+		  if(one.equals("")) teamOne = two;
+		  else
+			  if(two.equals("")) teamOne = one;
+			  else
+				  teamOne = one + " " + con + " " + two;
 	  }
 	  
 	  public void setTeamTwo(String one, String con, String two) {
-		  if(one.equals("") || one.equals(" ")) one = playerOne;
-		  if(two.equals("") || two.equals(" ")) two = playerTwo;
-		  teamTwo = one + " " + con + " " + two;
+		  //if(one.equals("") || one.equals(" ")) one = playerOne;
+		  //if(two.equals("") || two.equals(" ")) two = playerTwo;
+		  if(one.equals("")) teamTwo = two;
+		  else
+			  if(two.equals("")) teamTwo = one;
+			  else
+		  		teamTwo = one + " " + con + " " + two;
 	  }
 	  
 	  public void increasePlayerOneScore()
@@ -831,12 +848,12 @@ public class FileManager {
 		      writer.close();
 		      
 		      writer = new PrintWriter(getTextDirectory() + this.files[18]);
-		      teamOne = playerOne + " " + teamCombineCharacter + " " + playerTwo;
+		      teamOne = this.getTeamOne();
 		      writer.print(teamOne);
 		      writer.close();
 		      
 		      writer = new PrintWriter(getTextDirectory() + this.files[19]);
-		      teamTwo = playerThree + " " + teamCombineCharacter + " " + playerFour;
+		      teamTwo = this.getTeamTwo();
 		      writer.print(teamTwo);
 		      writer.close();
 		      
@@ -936,12 +953,12 @@ public class FileManager {
 	      writer.close();
 	      
 	      writer = new PrintWriter(getTextDirectory() + this.files[18]);
-	      teamOne = playerOne + " " + teamCombineCharacter + " " + playerTwo;
+	      teamOne = this.getTeamOne();
 	      writer.print(teamOne);
 	      writer.close();
 	      
 	      writer = new PrintWriter(getTextDirectory() + this.files[19]);
-	      teamTwo = playerThree + " " + teamCombineCharacter + " " + playerFour;
+	      teamTwo = this.getTeamTwo();
 	      writer.print(teamTwo);
 	      writer.close();
 	      

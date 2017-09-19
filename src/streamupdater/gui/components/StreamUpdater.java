@@ -421,26 +421,26 @@ public class StreamUpdater extends JPanel {
 				setPlayerOneInfo();
 				setPlayerOneCharacter();
 				setPlayerOneScore();
-				//setPlayerOneSponsor();
+				setPlayerOneSponsor();
 				setPlayerTwoName();
 				setPlayerTwoInfo();
 				setPlayerTwoScore();
 				setPlayerTwoCharacter();
-				//setPlayerTwoSponsor();
+				setPlayerTwoSponsor();
 				if(!singles) {
 					setPlayerThreeName();
 					setPlayerThreeInfo();
 					setPlayerThreeCharacter();
-					//setPlayerThreeSponsor();
+					setPlayerThreeSponsor();
 					setPlayerFourName();
 					setPlayerFourInfo();
 					setPlayerFourCharacter();
-					//setPlayerFourSponsor();
+					setPlayerFourSponsor();
 				}
 				setCommentatorsName();
 				setCommentatorsInfo();
-				//setCommentatorOneSponsor();
-				//setCommentatorTwoSponsor();
+				setCommentatorOneSponsor();
+				setCommentatorTwoSponsor();
 				setMainTitle();
 				setCurrentRound();
 				fm.writeToFiles();
