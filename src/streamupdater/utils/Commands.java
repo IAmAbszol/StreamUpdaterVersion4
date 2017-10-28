@@ -29,6 +29,54 @@ public class Commands {
 			n = n.replace("PLAYERFOURNAME", getPlayerName(4));
 		}
 		
+		if(n.contains("TMGONE")) {
+			n = n.replace("TMGONE", fm.getSchoolOne());
+		}
+		
+		if(n.contains("TMGTWO")) {
+			n = n.replace("TMGTWO", fm.getSchoolTwo());
+		}
+		
+		if(n.contains("TMGONEP1")) {
+			n = n.replaceAll("TMGONEP1", fm.getSchoolOnePlayerOne());
+		}
+		
+		if(n.contains("TMGONEP2")) {
+			n = n.replaceAll("TMGONEP2", fm.getSchoolOnePlayerTwo());
+		}
+		
+		if(n.contains("TMGONEP3")) {
+			n = n.replaceAll("TMGONEP3", fm.getSchoolOnePlayerThree());
+		}
+		
+		if(n.contains("TMGONEP4")) {
+			n = n.replaceAll("TMGONEP4", fm.getSchoolOnePlayerFour());
+		}
+		
+		if(n.contains("TMGONEP5")) {
+			n = n.replaceAll("TMGONEP5", fm.getSchoolOnePlayerFive());
+		}
+		
+		if(n.contains("TMGTWOP1")) {
+			n = n.replaceAll("TMGTWOP1", fm.getSchoolTwoPlayerOne());
+		}
+		
+		if(n.contains("TMGTWOP2")) {
+			n = n.replaceAll("TMGTWOP2", fm.getSchoolTwoPlayerTwo());
+		}
+		
+		if(n.contains("TMGTWOP3")) {
+			n = n.replaceAll("TMGTWOP3", fm.getSchoolTwoPlayerThree());
+		}
+		
+		if(n.contains("TMGTWOP4")) {
+			n = n.replaceAll("TMGTWOP4", fm.getSchoolTwoPlayerFour());
+		}
+		
+		if(n.contains("TMGTWOP5")) {
+			n = n.replaceAll("TMGTWOP5", fm.getSchoolTwoPlayerFive());
+		}
+		
 		if(n.contains("TEAM1")) {
 			n = n.replace("TEAM1", getTeamName(1));
 		}

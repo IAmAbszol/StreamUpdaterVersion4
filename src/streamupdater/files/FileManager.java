@@ -19,9 +19,10 @@ public class FileManager {
 	private static String[] gameSubDir = { "Characters", "Commentators", "Players", "Sponsors" };
 	
 	private String[] files = { "maintitle.txt", "round.txt", "player1name.txt", "player2name.txt", "player1score.txt", "player2score.txt", "commentator1.txt", "commentator2.txt", "player1character.png", 
-				 "player1sponsor.png", "player2character.png", "player2sponsor.png", "commentator1sponsor.png", "commentator2sponsor.png", "playerOneCharacter.txt", "playerTwoCharacter.txt", "player3name.txt", "player4name.txt", "team1name.txt", "team2name.txt", "player3character.png", "player4character.png", "playerThreeCharacter.txt", "playerFourCharacter.txt"};
+				 "player1sponsor.png", "player2character.png", "player2sponsor.png", "commentator1sponsor.png", "commentator2sponsor.png", "playerOneCharacter.txt", "playerTwoCharacter.txt", "player3name.txt", "player4name.txt", "team1name.txt", "team2name.txt", "player3character.png", "player4character.png", "playerThreeCharacter.txt", "playerFourCharacter.txt", 
+				 "schoolOneName.txt", "schoolTwoName.txt", "schoolOneP1.txt", "schoolOneP2.txt", "schoolOneP3.txt", "schoolOneP4.txt", "schoolOneP5.txt", "schoolTwoP1.txt", "schoolTwoP2.txt", "schoolTwoP3.txt", "schoolTwoP4.txt", "schoolTwoP5.txt"};
 	
-	private String[] fileContents = { "Main Title", "Current Round", "Player One", "Player Two", "0", "0", "Commentator1", "Commentator2", "null", "null", "null", "null", "null", "null", "", "", "Player Three", "Player Four", "Team 1", "Team 2", "null", "null", "", ""};
+	private String[] fileContents = { "Main Title", "Current Round", "Player One", "Player Two", "0", "0", "Commentator1", "Commentator2", "null", "null", "null", "null", "null", "null", "", "", "Player Three", "Player Four", "Team 1", "Team 2", "null", "null", "", "", "", "", "", "", "", "", "", "", "", "", "", ""};
 	
 	private int playerTwoScore = 0;
 	private String playerTwo = "Player Two";  
@@ -35,7 +36,23 @@ public class FileManager {
 	private String commentatorsInfo[] = { "@Commentator1", "@Commentator2" };
 	private String playerOneCharacterText = "";
 	private String playerTwoCharacterText = "";
-	  
+	
+	// school one
+	private String schoolOneName = "";
+	private String schoolOneP1 = "";
+	private String schoolOneP2 = "";
+	private String schoolOneP3 = "";
+	private String schoolOneP4 = "";
+	private String schoolOneP5 = "";
+	
+	// school two
+	private String schoolTwoName = "";
+	private String schoolTwoP1 = "";
+	private String schoolTwoP2 = "";
+	private String schoolTwoP3 = "";
+	private String schoolTwoP4 = "";
+	private String schoolTwoP5 = "";
+	
 	private static boolean sleeping = false;
 	  
 	/*
@@ -349,6 +366,108 @@ public class FileManager {
 			e.printStackTrace();
 		}
 	}
+	
+	/*
+	 * School saving config
+	 */
+	
+	public void setSchoolOne(String n) {
+		schoolOneName = n;
+	}
+	
+	public void setSchoolTwo(String n) {
+		schoolTwoName = n;
+	}
+	
+	public void setSchoolOnePlayerOne(String n) {
+		schoolOneP1 = n;
+	}
+	
+	public void setSchoolOnePlayerTwo(String n) {
+		schoolOneP2 = n;
+	}
+	
+	public void setSchoolOnePlayerThree(String n) {
+		schoolOneP3 = n;
+	}
+	
+	public void setSchoolOnePlayerFour(String n) {
+		schoolOneP4 = n;
+	}
+	
+	public void setSchoolOnePlayerFive(String n) {
+		schoolOneP5 = n;
+	}
+	
+	public void setSchoolTwoPlayerOne(String n) {
+		schoolTwoP1 = n;
+	}
+	
+	public void setSchoolTwoPlayerTwo(String n) {
+		schoolTwoP2 = n;
+	}
+	
+	public void setSchoolTwoPlayerThree(String n) {
+		schoolTwoP3 = n;
+	}
+	
+	public void setSchoolTwoPlayerFour(String n) {
+		schoolTwoP4 = n;
+	}
+	
+	public void setSchoolTwoPlayerFive(String n) {
+		schoolTwoP5 = n;
+	}
+	
+	public String getSchoolOne() {
+		return schoolOneName;
+	}
+	
+	public String getSchoolTwo() {
+		return schoolTwoName;
+	}
+	
+	public String getSchoolOnePlayerOne() {
+		return schoolOneP1;
+	}
+	
+	public String getSchoolOnePlayerTwo() {
+		return schoolOneP2;
+	}
+	
+	public String getSchoolOnePlayerThree() {
+		return schoolOneP3;
+	}
+	
+	public String getSchoolOnePlayerFour() {
+		return schoolOneP4;
+	}
+	
+	public String getSchoolOnePlayerFive() {
+		return schoolOneP5;
+	}
+	
+	public String getSchoolTwoPlayerOne() {
+		return schoolTwoP1;
+	}
+	
+	public String getSchoolTwoPlayerTwo() {
+		return schoolTwoP2;
+	}
+	
+	public String getSchoolTwoPlayerThree() {
+		return schoolTwoP3;
+	}
+	
+	public String getSchoolTwoPlayerFour() {
+		return schoolTwoP4;
+	}
+	
+	public String getSchoolTwoPlayerFive() {
+		return schoolTwoP5;
+	}
+	
+	
 	
 	/*
 	 * Old saving file configuration functions
@@ -865,6 +984,54 @@ public class FileManager {
 		      writer.print(playerFourCharacter);
 		      writer.close();
 		      
+		      writer = new PrintWriter(getTextDirectory() + this.files[24]);
+		      writer.print(schoolOneName);
+		      writer.close();
+		      
+		      writer = new PrintWriter(getTextDirectory() + this.files[25]);
+		      writer.print(schoolTwoName);
+		      writer.close();
+		      
+		      writer = new PrintWriter(getTextDirectory() + this.files[26]);
+		      writer.print(schoolOneP1);
+		      writer.close();
+		      
+		      writer = new PrintWriter(getTextDirectory() + this.files[27]);
+		      writer.print(schoolOneP2);
+		      writer.close();
+		      
+		      writer = new PrintWriter(getTextDirectory() + this.files[28]);
+		      writer.print(schoolOneP3);
+		      writer.close();
+		      
+		      writer = new PrintWriter(getTextDirectory() + this.files[29]);
+		      writer.print(schoolOneP4);
+		      writer.close();
+		      
+		      writer = new PrintWriter(getTextDirectory() + this.files[30]);
+		      writer.print(schoolOneP5);
+		      writer.close();
+		      
+		      writer = new PrintWriter(getTextDirectory() + this.files[31]);
+		      writer.print(schoolTwoP1);
+		      writer.close();
+		      
+		      writer = new PrintWriter(getTextDirectory() + this.files[32]);
+		      writer.print(schoolTwoP2);
+		      writer.close();
+		      
+		      writer = new PrintWriter(getTextDirectory() + this.files[33]);
+		      writer.print(schoolTwoP3);
+		      writer.close();
+		      
+		      writer = new PrintWriter(getTextDirectory() + this.files[34]);
+		      writer.print(schoolTwoP4);
+		      writer.close();
+		      
+		      writer = new PrintWriter(getTextDirectory() + this.files[35]);
+		      writer.print(schoolTwoP5);
+		      writer.close();
+		      
 		  } catch (Exception e) {}
 	  }
 	  
@@ -968,6 +1135,54 @@ public class FileManager {
 	      
 	      writer = new PrintWriter(getTextDirectory() + this.files[21]);
 	      writer.print(playerFourCharacter);
+	      writer.close();
+	      
+	      writer = new PrintWriter(getTextDirectory() + this.files[24]);
+	      writer.print(schoolOneName);
+	      writer.close();
+	      
+	      writer = new PrintWriter(getTextDirectory() + this.files[25]);
+	      writer.print(schoolTwoName);
+	      writer.close();
+	      
+	      writer = new PrintWriter(getTextDirectory() + this.files[26]);
+	      writer.print(schoolOneP1);
+	      writer.close();
+	      
+	      writer = new PrintWriter(getTextDirectory() + this.files[27]);
+	      writer.print(schoolOneP2);
+	      writer.close();
+	      
+	      writer = new PrintWriter(getTextDirectory() + this.files[28]);
+	      writer.print(schoolOneP3);
+	      writer.close();
+	      
+	      writer = new PrintWriter(getTextDirectory() + this.files[29]);
+	      writer.print(schoolOneP4);
+	      writer.close();
+	      
+	      writer = new PrintWriter(getTextDirectory() + this.files[30]);
+	      writer.print(schoolOneP5);
+	      writer.close();
+	      
+	      writer = new PrintWriter(getTextDirectory() + this.files[31]);
+	      writer.print(schoolTwoP1);
+	      writer.close();
+	      
+	      writer = new PrintWriter(getTextDirectory() + this.files[32]);
+	      writer.print(schoolTwoP2);
+	      writer.close();
+	      
+	      writer = new PrintWriter(getTextDirectory() + this.files[33]);
+	      writer.print(schoolTwoP3);
+	      writer.close();
+	      
+	      writer = new PrintWriter(getTextDirectory() + this.files[34]);
+	      writer.print(schoolTwoP4);
+	      writer.close();
+	      
+	      writer = new PrintWriter(getTextDirectory() + this.files[35]);
+	      writer.print(schoolTwoP5);
 	      writer.close();
 	    	  
 	      Thread tmp = new Thread(new Runnable() {
