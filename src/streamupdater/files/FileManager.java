@@ -884,6 +884,65 @@ public class FileManager {
 		  }
 	  }
 	  
+	  public void writeToTMG() {
+		  try {
+			  PrintWriter writer = null;
+		      sleeping = true;
+		      System.out.println("Enacting Sleep: Image preservation for slower computers");
+		      
+	      writer = new PrintWriter(getTextDirectory() + this.files[24]);
+	      writer.print(schoolOneName);
+	      writer.close();
+	      
+	      writer = new PrintWriter(getTextDirectory() + this.files[25]);
+	      writer.print(schoolTwoName);
+	      writer.close();
+	      
+	      writer = new PrintWriter(getTextDirectory() + this.files[26]);
+	      writer.print(schoolOneP1);
+	      writer.close();
+	      
+	      writer = new PrintWriter(getTextDirectory() + this.files[27]);
+	      writer.print(schoolOneP2);
+	      writer.close();
+	      
+	      writer = new PrintWriter(getTextDirectory() + this.files[28]);
+	      writer.print(schoolOneP3);
+	      writer.close();
+	      
+	      writer = new PrintWriter(getTextDirectory() + this.files[29]);
+	      writer.print(schoolOneP4);
+	      writer.close();
+	      
+	      writer = new PrintWriter(getTextDirectory() + this.files[30]);
+	      writer.print(schoolOneP5);
+	      writer.close();
+	      
+	      writer = new PrintWriter(getTextDirectory() + this.files[31]);
+	      writer.print(schoolTwoP1);
+	      writer.close();
+	      
+	      writer = new PrintWriter(getTextDirectory() + this.files[32]);
+	      writer.print(schoolTwoP2);
+	      writer.close();
+	      
+	      writer = new PrintWriter(getTextDirectory() + this.files[33]);
+	      writer.print(schoolTwoP3);
+	      writer.close();
+	      
+	      writer = new PrintWriter(getTextDirectory() + this.files[34]);
+	      writer.print(schoolTwoP4);
+	      writer.close();
+	      
+	      writer = new PrintWriter(getTextDirectory() + this.files[35]);
+	      writer.print(schoolTwoP5);
+	      writer.close();
+	      
+	  	} catch (Exception e) {
+		  e.printStackTrace();
+	  	}
+	  }
+	  
 	  public void writeToText() {
 		  try {
 		      PrintWriter writer = null;
@@ -982,54 +1041,6 @@ public class FileManager {
 		      
 		      writer = new PrintWriter(getTextDirectory() + this.files[21]);
 		      writer.print(playerFourCharacter);
-		      writer.close();
-		      
-		      writer = new PrintWriter(getTextDirectory() + this.files[24]);
-		      writer.print(schoolOneName);
-		      writer.close();
-		      
-		      writer = new PrintWriter(getTextDirectory() + this.files[25]);
-		      writer.print(schoolTwoName);
-		      writer.close();
-		      
-		      writer = new PrintWriter(getTextDirectory() + this.files[26]);
-		      writer.print(schoolOneP1);
-		      writer.close();
-		      
-		      writer = new PrintWriter(getTextDirectory() + this.files[27]);
-		      writer.print(schoolOneP2);
-		      writer.close();
-		      
-		      writer = new PrintWriter(getTextDirectory() + this.files[28]);
-		      writer.print(schoolOneP3);
-		      writer.close();
-		      
-		      writer = new PrintWriter(getTextDirectory() + this.files[29]);
-		      writer.print(schoolOneP4);
-		      writer.close();
-		      
-		      writer = new PrintWriter(getTextDirectory() + this.files[30]);
-		      writer.print(schoolOneP5);
-		      writer.close();
-		      
-		      writer = new PrintWriter(getTextDirectory() + this.files[31]);
-		      writer.print(schoolTwoP1);
-		      writer.close();
-		      
-		      writer = new PrintWriter(getTextDirectory() + this.files[32]);
-		      writer.print(schoolTwoP2);
-		      writer.close();
-		      
-		      writer = new PrintWriter(getTextDirectory() + this.files[33]);
-		      writer.print(schoolTwoP3);
-		      writer.close();
-		      
-		      writer = new PrintWriter(getTextDirectory() + this.files[34]);
-		      writer.print(schoolTwoP4);
-		      writer.close();
-		      
-		      writer = new PrintWriter(getTextDirectory() + this.files[35]);
-		      writer.print(schoolTwoP5);
 		      writer.close();
 		      
 		  } catch (Exception e) {}
@@ -1137,54 +1148,6 @@ public class FileManager {
 	      writer.print(playerFourCharacter);
 	      writer.close();
 	      
-	      writer = new PrintWriter(getTextDirectory() + this.files[24]);
-	      writer.print(schoolOneName);
-	      writer.close();
-	      
-	      writer = new PrintWriter(getTextDirectory() + this.files[25]);
-	      writer.print(schoolTwoName);
-	      writer.close();
-	      
-	      writer = new PrintWriter(getTextDirectory() + this.files[26]);
-	      writer.print(schoolOneP1);
-	      writer.close();
-	      
-	      writer = new PrintWriter(getTextDirectory() + this.files[27]);
-	      writer.print(schoolOneP2);
-	      writer.close();
-	      
-	      writer = new PrintWriter(getTextDirectory() + this.files[28]);
-	      writer.print(schoolOneP3);
-	      writer.close();
-	      
-	      writer = new PrintWriter(getTextDirectory() + this.files[29]);
-	      writer.print(schoolOneP4);
-	      writer.close();
-	      
-	      writer = new PrintWriter(getTextDirectory() + this.files[30]);
-	      writer.print(schoolOneP5);
-	      writer.close();
-	      
-	      writer = new PrintWriter(getTextDirectory() + this.files[31]);
-	      writer.print(schoolTwoP1);
-	      writer.close();
-	      
-	      writer = new PrintWriter(getTextDirectory() + this.files[32]);
-	      writer.print(schoolTwoP2);
-	      writer.close();
-	      
-	      writer = new PrintWriter(getTextDirectory() + this.files[33]);
-	      writer.print(schoolTwoP3);
-	      writer.close();
-	      
-	      writer = new PrintWriter(getTextDirectory() + this.files[34]);
-	      writer.print(schoolTwoP4);
-	      writer.close();
-	      
-	      writer = new PrintWriter(getTextDirectory() + this.files[35]);
-	      writer.print(schoolTwoP5);
-	      writer.close();
-	    	  
 	      Thread tmp = new Thread(new Runnable() {
 	
 			@Override

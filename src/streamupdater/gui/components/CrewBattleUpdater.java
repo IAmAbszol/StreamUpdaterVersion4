@@ -269,6 +269,26 @@ public class CrewBattleUpdater extends JPanel {
 		schoolTwoPlayerFiveTextField.getInputMap().put(KeyStroke.getKeyStroke("TAB"), COMMIT5_ACTION);
 		schoolTwoPlayerFiveTextField.getActionMap().put(COMMIT4_ACTION, schoolTwoPlayerFiveTextField.new CommitAction());
 		
+		JLabel schoolOnePlayerOneMinus = new JLabel("");
+		try {
+			schoolOnePlayerOneMinus.setIcon(new ImageIcon(ImageIO.read(this.getClass().getResourceAsStream("/images/minusCB.png"))));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		schoolOnePlayerOneMinus.setBounds(275, 560, 25, 25);
+		add(schoolOnePlayerOneMinus);
+		
+		JLabel schoolOnePlayerTwoMinus = new JLabel("");
+		try {
+			schoolOnePlayerTwoMinus.setIcon(new ImageIcon(ImageIO.read(this.getClass().getResourceAsStream("/images/minusCB.png"))));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		schoolOnePlayerTwoMinus.setBounds(1320, 560, 25, 25);
+		add(schoolOnePlayerTwoMinus);
+		
 		JLabel schoolOnePlayerOnePlus = new JLabel("");
 		try {
 			schoolOnePlayerOnePlus.setIcon(new ImageIcon(ImageIO.read(this.getClass().getResourceAsStream("/images/plusCB.png"))));
@@ -446,9 +466,11 @@ public class CrewBattleUpdater extends JPanel {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				lastSwappedSchoolOne = "SP1";
-				selectedSchoolOne.setText(schoolOnePlayerOneTextField.getText());
-				schoolOnePlayerOneTextField.setText("");
+				if(lastSwappedSchoolOne.equals("")) {
+					lastSwappedSchoolOne = "SP1";
+					selectedSchoolOne.setText(schoolOnePlayerOneTextField.getText());
+					schoolOnePlayerOneTextField.setText("");
+				}
 			}
 			public void mousePressed(MouseEvent e) {}
 			public void mouseReleased(MouseEvent e) {}
@@ -461,9 +483,11 @@ public class CrewBattleUpdater extends JPanel {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				lastSwappedSchoolOne = "SP2";
-				selectedSchoolOne.setText(schoolOnePlayerTwoTextField.getText());
-				schoolOnePlayerTwoTextField.setText("");
+				if(lastSwappedSchoolOne.equals("")) {
+					lastSwappedSchoolOne = "SP2";
+					selectedSchoolOne.setText(schoolOnePlayerTwoTextField.getText());
+					schoolOnePlayerTwoTextField.setText("");
+				}
 			}
 			public void mousePressed(MouseEvent e) {}
 			public void mouseReleased(MouseEvent e) {}
@@ -476,9 +500,11 @@ public class CrewBattleUpdater extends JPanel {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				lastSwappedSchoolOne = "SP3";
-				selectedSchoolOne.setText(schoolOnePlayerThreeTextField.getText());
-				schoolOnePlayerThreeTextField.setText("");
+				if(lastSwappedSchoolOne.equals("")) {
+					lastSwappedSchoolOne = "SP3";
+					selectedSchoolOne.setText(schoolOnePlayerThreeTextField.getText());
+					schoolOnePlayerThreeTextField.setText("");
+				}
 			}
 			public void mousePressed(MouseEvent e) {}
 			public void mouseReleased(MouseEvent e) {}
@@ -491,9 +517,11 @@ public class CrewBattleUpdater extends JPanel {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				lastSwappedSchoolOne = "SP4";
-				selectedSchoolOne.setText(schoolOnePlayerFourTextField.getText());
-				schoolOnePlayerFourTextField.setText("");
+				if(lastSwappedSchoolOne.equals("")) {
+					lastSwappedSchoolOne = "SP4";
+					selectedSchoolOne.setText(schoolOnePlayerFourTextField.getText());
+					schoolOnePlayerFourTextField.setText("");
+				}
 			}
 			public void mousePressed(MouseEvent e) {}
 			public void mouseReleased(MouseEvent e) {}
@@ -506,9 +534,11 @@ public class CrewBattleUpdater extends JPanel {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				lastSwappedSchoolOne = "SP5";
-				selectedSchoolOne.setText(schoolOnePlayerFiveTextField.getText());
-				schoolOnePlayerFiveTextField.setText("");
+				if(lastSwappedSchoolOne.equals("")) {
+					lastSwappedSchoolOne = "SP5";
+					selectedSchoolOne.setText(schoolOnePlayerFiveTextField.getText());
+					schoolOnePlayerFiveTextField.setText("");
+				}
 			}
 			public void mousePressed(MouseEvent e) {}
 			public void mouseReleased(MouseEvent e) {}
@@ -521,9 +551,11 @@ public class CrewBattleUpdater extends JPanel {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				lastSwappedSchoolTwo = "SP1";
-				selectedSchoolOne.setText(schoolTwoPlayerOneTextField.getText());
-				schoolTwoPlayerOneTextField.setText("");
+				if(lastSwappedSchoolTwo.equals("")) {
+					lastSwappedSchoolTwo = "SP1";
+					selectedSchoolTwo.setText(schoolTwoPlayerOneTextField.getText());
+					schoolTwoPlayerOneTextField.setText("");
+				}
 			}
 			public void mousePressed(MouseEvent e) {}
 			public void mouseReleased(MouseEvent e) {}
@@ -536,9 +568,11 @@ public class CrewBattleUpdater extends JPanel {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				lastSwappedSchoolTwo = "SP2";
-				selectedSchoolOne.setText(schoolTwoPlayerTwoTextField.getText());
-				schoolTwoPlayerTwoTextField.setText("");
+				if(lastSwappedSchoolTwo.equals("")) {
+					lastSwappedSchoolTwo = "SP2";
+					selectedSchoolTwo.setText(schoolTwoPlayerTwoTextField.getText());
+					schoolTwoPlayerTwoTextField.setText("");
+				}
 			}
 			public void mousePressed(MouseEvent e) {}
 			public void mouseReleased(MouseEvent e) {}
@@ -551,9 +585,11 @@ public class CrewBattleUpdater extends JPanel {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				lastSwappedSchoolTwo = "SP3";
-				selectedSchoolOne.setText(schoolTwoPlayerThreeTextField.getText());
-				schoolTwoPlayerThreeTextField.setText("");
+				if(lastSwappedSchoolTwo.equals("")) {
+					lastSwappedSchoolTwo = "SP3";
+					selectedSchoolTwo.setText(schoolTwoPlayerThreeTextField.getText());
+					schoolTwoPlayerThreeTextField.setText("");
+				}
 			}
 			public void mousePressed(MouseEvent e) {}
 			public void mouseReleased(MouseEvent e) {}
@@ -566,9 +602,11 @@ public class CrewBattleUpdater extends JPanel {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				lastSwappedSchoolTwo = "SP4";
-				selectedSchoolOne.setText(schoolTwoPlayerFourTextField.getText());
-				schoolTwoPlayerFourTextField.setText("");
+				if(lastSwappedSchoolTwo.equals("")) {
+					lastSwappedSchoolTwo = "SP4";
+					selectedSchoolTwo.setText(schoolTwoPlayerFourTextField.getText());
+					schoolTwoPlayerFourTextField.setText("");
+				}
 			}
 			public void mousePressed(MouseEvent e) {}
 			public void mouseReleased(MouseEvent e) {}
@@ -581,9 +619,39 @@ public class CrewBattleUpdater extends JPanel {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				lastSwappedSchoolTwo = "SP5";
-				selectedSchoolOne.setText(schoolTwoPlayerFiveTextField.getText());
-				schoolTwoPlayerFiveTextField.setText("");
+				if(lastSwappedSchoolTwo.equals("")) {
+					lastSwappedSchoolTwo = "SP5";
+					selectedSchoolTwo.setText(schoolTwoPlayerFiveTextField.getText());
+					schoolTwoPlayerFiveTextField.setText("");
+				}
+			}
+			public void mousePressed(MouseEvent e) {}
+			public void mouseReleased(MouseEvent e) {}
+			public void mouseEntered(MouseEvent e) {}
+			public void mouseExited(MouseEvent e) {}
+			
+		});	
+		
+		schoolOnePlayerOneMinus.addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				selectedSchoolOne.setText("");
+				lastSwappedSchoolOne = "";
+			}
+			public void mousePressed(MouseEvent e) {}
+			public void mouseReleased(MouseEvent e) {}
+			public void mouseEntered(MouseEvent e) {}
+			public void mouseExited(MouseEvent e) {}
+			
+		});	
+		
+		schoolOnePlayerTwoMinus.addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				selectedSchoolTwo.setText("");
+				lastSwappedSchoolTwo = "";
 			}
 			public void mousePressed(MouseEvent e) {}
 			public void mouseReleased(MouseEvent e) {}
@@ -612,7 +680,7 @@ public class CrewBattleUpdater extends JPanel {
 				setSelectedSchoolOne();
 				setSelectedSchoolTwo();
 				
-				fm.writeToFiles();
+				fm.writeToTMG();
 				
 			}
 			
@@ -636,11 +704,11 @@ public class CrewBattleUpdater extends JPanel {
 	}
 	
 	public void setSelectedSchoolOne() {
-		fm.setPlayerOne(selectedSchoolOne.getText());
+		fm.setPlayerOne(selectedSchoolOne.getText() + "/" + schoolOneName.getText());
 	}
 	
 	public void setSelectedSchoolTwo() {
-		fm.setPlayerTwo(selectedSchoolTwo.getText());
+		fm.setPlayerTwo(selectedSchoolTwo.getText() + "/" + schoolTwoName.getText());
 	}
 	
 	public void setSchoolOneName() {
@@ -671,22 +739,22 @@ public class CrewBattleUpdater extends JPanel {
 	}
 	
 	public void setSchoolTwoPlayerOne() {
-		fm.setSchoolTwoPlayerOne(schoolOnePlayerOneTextField.getText());
+		fm.setSchoolTwoPlayerOne(schoolTwoPlayerOneTextField.getText());
 	}
 	
 	public void setSchoolTwoPlayerTwo() {
-		fm.setSchoolTwoPlayerTwo(schoolOnePlayerTwoTextField.getText());
+		fm.setSchoolTwoPlayerTwo(schoolTwoPlayerTwoTextField.getText());
 	}
 	
 	public void setSchoolTwoPlayerThree() {
-		fm.setSchoolTwoPlayerThree(schoolOnePlayerThreeTextField.getText());
+		fm.setSchoolTwoPlayerThree(schoolTwoPlayerThreeTextField.getText());
 	}
 	public void setSchoolTwoPlayerFour() {
-		fm.setSchoolTwoPlayerFour(schoolOnePlayerFourTextField.getText());
+		fm.setSchoolTwoPlayerFour(schoolTwoPlayerFourTextField.getText());
 	}
 	
 	public void setSchoolTwoPlayerFive() {
-		fm.setSchoolTwoPlayerFive(schoolOnePlayerFiveTextField.getText());
+		fm.setSchoolTwoPlayerFive(schoolTwoPlayerFiveTextField.getText());
 	}
 	
 	public static boolean getRestriction() {
