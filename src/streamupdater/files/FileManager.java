@@ -938,6 +938,24 @@ public class FileManager {
 	      writer.print(schoolTwoP5);
 	      writer.close();
 	      
+	      writer = new PrintWriter(getTextDirectory() + this.files[2]);
+	      if(!StreamUpdater.getRestriction()) {
+	    	  writer.println(this.playerOne);
+	    	  writer.print(this.playerOneInfo);
+	      } else {
+	    	  writer.print(this.playerOne);
+	      }
+	      writer.close();
+	      
+	      writer = new PrintWriter(getTextDirectory() + this.files[3]);
+	      if(!StreamUpdater.getRestriction()) {
+	    	  writer.println(this.playerTwo);
+	    	  writer.print(this.playerTwoInfo);
+	      } else {
+	    	  writer.print(this.playerTwo);
+	      }
+	      writer.close();
+	      
 	  	} catch (Exception e) {
 		  e.printStackTrace();
 	  	}
