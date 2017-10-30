@@ -22,11 +22,12 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
 
-import streamupdater.gui.components.CrewBattleUpdater;
 import streamupdater.gui.components.StreamCapture;
 import streamupdater.gui.components.StreamUpdater;
 import streamupdater.gui.components.ThumbnailEditor;
 import streamupdater.gui.components.TournamentEnlisting;
+import streamupdater.gui.components.Uploader;
+import streamupdater.uploader.VideoUploader;
 
 @SuppressWarnings("serial")
 public class MainGui extends JFrame {
@@ -37,7 +38,6 @@ public class MainGui extends JFrame {
 	private StreamUpdater su;
 	private StreamCapture sc;
 	private ThumbnailEditor thumb;
-	private CrewBattleUpdater cbu;
 	
 	private static JTabbedPane tabbedPane;
 	
@@ -92,10 +92,6 @@ public class MainGui extends JFrame {
 		
 		thumb = new ThumbnailEditor();
 		tabbedPane.addTab("<html><body><table width='250'>Thumbnail Editor</table></body></html>", thumb);
-		
-		cbu = new CrewBattleUpdater();
-		tabbedPane.addTab("<html><body><table width='250'>Crew Battle Updater</table></body></html>", cbu);
-		
 		
 		tabbedPane.setUI(new BasicTabbedPaneUI() {
 			   @Override
