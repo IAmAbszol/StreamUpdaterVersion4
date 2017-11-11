@@ -1,3 +1,8 @@
+*WARNING! LATEST RELEASE OF OBS CAUSES A LOCK ON THE FLV CONTAINER!*
+*THIS CAUSES A PROBLEM IN COLLECTING TIMESTAMPS FOR THE VIDEO!*
+*IN ORDER TO RUN THIS PROGRAM EFFICENTLY, USE THE 20.0.1 RELEASE OF OBS*
+https://github.com/jp9000/obs-studio/releases
+
 # StreamUpdaterVersion4
 Control a stream like never before, customize and load custom Thumbnails, Capture and automatically render videos, and Upload straight to YouTube.
 
