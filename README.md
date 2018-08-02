@@ -50,6 +50,7 @@ Game/*
     3. Everything else will be built as you use.
 
 Media/*
+    
     1. This directory handles the file output of the videos and thumbnails, don't worry about this.
 
 Saves/*
