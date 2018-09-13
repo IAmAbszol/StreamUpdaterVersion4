@@ -34,7 +34,7 @@ How to use:
 5. Once all the files and linking is setup, relaunch the Stream Updater from via jar or CMD.
 6. Adding Players/Commentators/Sponsors are done by the first module, Tournament Enlisting Tab.
 7. The Stream Updater module, updates the stream. By clicking 'Singles', 'Doubles' will then appear.
-    * Do note, doulbes is ran from Team One being on top, Team Two being on bottom. Left controls Team 1 and Right controls Team 2.
+    * Do note, doubles is ran from Team One being on top, Team Two being on bottom. Left controls Team 1 and Right controls Team 2.
 8. Stream Capture module captures the stream but requires an FLV input stream first.
 9. The Thumbnail Editor allows you to customize the thumbnails all the while saving and loading previous versions.
 10. Lastly the Uploading Tab allows you to upload straight to YouTube with provided description, tags, and finally privacy.
